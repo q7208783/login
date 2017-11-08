@@ -1,4 +1,4 @@
-package com.zcc.login.dao;
+package com.zcc.login.model;
 
 import java.util.List;
 
@@ -14,4 +14,5 @@ public class User {
 	private String user_pwd;
 	private String user_phone_num;
 	private List<Authority> authorities;
+	private String user_mail;
 }

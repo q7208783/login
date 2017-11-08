@@ -1,4 +1,4 @@
-package com.zcc.login.dao;
+package com.zcc.login.model;
 
 import lombok.Data;
 
