@@ -24,10 +24,17 @@
         FROM user_info U
         LEFT JOIN user_auth_link L ON L.user_id = U.user_id
         LEFT JOIN auth_info A ON A.auth_id = L.auth_id
-        WHERE U.user_name = #{userName}
-        <if test="userId !=0">
-            AND U.user_id = #{userId}
-        </if>
+        <choose>
+            <when test="userName!=null">
+                WHERE U.user_name = #{userName}
+            </when>
+            <when test="userId!=null">
+                WHERE U.user_id = #{userId}
+            </when>
+            <otherwise>
+                WHERE U.user_id = #{userId} AND U.user_name = #{userName}
+            </otherwise>
+        </choose>
     </select>
 
     <select id="userNameExistNum" parameterType="String" resultType="int">
@@ -46,7 +53,4 @@
     <delete id="deleteUser" parameterType="String">
         DELETE FROM user_info WHERE user_name=#{userName}
     </delete>
-
-
-
 </mapper>

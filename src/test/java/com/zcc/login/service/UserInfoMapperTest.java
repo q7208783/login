@@ -31,6 +31,22 @@ public class UserInfoMapperTest {
 		User user = userService.findUser(request);
 		assertNotNull(user);
 		assertEquals(user.getUserName(),userName);
+
+		int userId = 2;
+		request = new SelectUserRequest();
+		request.setUserId(userId);
+		user = userService.findUser(request);
+		assertNotNull(user);
+		assertEquals(user.getUserId(),userId);
+
+		userId =1;
+		request = new SelectUserRequest();
+		request.setUserId(userId);
+		request.setUserName(userName);
+		user = userService.findUser(request);
+		assertNotNull(user);
+		assertEquals(user.getUserId(),userId);
+		assertEquals(user.getUserName(),userName);
 	}
 
 	@Test
@@ -54,7 +70,7 @@ public class UserInfoMapperTest {
 			assertEquals(e.getErrorCode(), ErrorCodeEnum.USER_NAME_INVALID.getErrorCode());
 			userService.deleteUser(request.getUserName());
 			boolean isExist = userService.isUserNameExist(request.getUserName());
-			assertTrue(!isExist);
+			assertFalse(isExist);
 		}
 	}
 
