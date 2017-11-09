@@ -7,6 +7,6 @@ import lombok.Data;
  */
 @Data
 public class Authority {
-	private int auth_id;
-	private String auth_name;
+	private int authId;
+	private String authName;
 }

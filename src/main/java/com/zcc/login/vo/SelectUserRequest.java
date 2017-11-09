@@ -7,6 +7,6 @@ import lombok.Data;
  */
 @Data
 public class SelectUserRequest {
-	private String user_name;
-	private String user_id;
+	private String userName;
+	private int userId;
 }

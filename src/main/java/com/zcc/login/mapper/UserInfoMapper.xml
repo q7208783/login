@@ -2,18 +2,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.zcc.login.mapper.UserInfoMapper">
-    <resultMap id="UserMap" type="com.zcc.login.model.User">
-        <id property="user_id" column="user_id"/>
-        <result property="user_name" column="user_name"/>
-        <result property="user_phone_num" column="user_phone_num"/>
-        <result property="user_mail" column="user_mail"/>
+    <resultMap id="UserMap" type="User">
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="phoneNum" column="user_phone_num"/>
+        <result property="email" column="user_mail"/>
         <collection property="authorities" ofType="Authority">
-            <id property="auth_id" column="auth_id"/>
-            <result property="auth_name" column="auth_name"/>
+            <id property="authId" column="auth_id"/>
+            <result property="authName" column="auth_name"/>
         </collection>
     </resultMap>
 
-    <select id="getUser" parameterMap="SelectUserRequest" resultMap="UserMap">
+    <select id="getUser" parameterType="SelectUserRequest" resultMap="UserMap">
         SELECT
         U.user_id,
         U.user_name,
@@ -24,9 +24,23 @@
         FROM user_info U
         LEFT JOIN user_auth_link L ON L.user_id = U.user_id
         LEFT JOIN auth_info A ON A.auth_id = L.auth_id
-        WHERE U.user_name = #{user_name}
-        <if test="user_id !=null">
-            AND U.user_id = #{user_id}
+        WHERE U.user_name = #{userName}
+        <if test="userId !=0">
+            AND U.user_id = #{userId}
         </if>
     </select>
+
+    <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
+        INSERT INTO user_info(user_name,user_pwd,user_phone_num,user_mail)
+        VALUES (#{userName},#{password},#{phoneNum},#{email})
+    </insert>
+
+    <insert id="addAuthority" parameterType="User">
+        INSERT INTO user_auth_link(auth_id,user_id)
+        VALUES
+        <foreach item="item" collection="authorities" separator=",">
+            (#{item.authId},#{userId})
+        </foreach>
+    </insert>
+
 </mapper>

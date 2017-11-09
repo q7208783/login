@@ -1,6 +1,7 @@
 package com.zcc.login.mapper;
 
 import com.zcc.login.model.User;
+import com.zcc.login.vo.CreateUserRequest;
 import com.zcc.login.vo.SelectUserRequest;
 
 /**
@@ -8,4 +9,7 @@ import com.zcc.login.vo.SelectUserRequest;
  */
 public interface UserInfoMapper {
 	User getUser(SelectUserRequest request);
+	void createUser(User user);
+	void addAuthority(User user);
+	boolean checkUserNameExist(String userName);
 }

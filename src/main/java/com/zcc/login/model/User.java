@@ -1,5 +1,6 @@
 package com.zcc.login.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -9,10 +10,16 @@ import lombok.Data;
  */
 @Data
 public class User {
-	private String user_id;
-	private String user_name;
-	private String user_pwd;
-	private String user_phone_num;
+	private int userId;
+	private String userName;
+	private String password;
+	private String phoneNum;
 	private List<Authority> authorities;
-	private String user_mail;
+	private String email;
+
+	public boolean addAuthority(Authority authority){
+		if(authorities==null)
+			authorities=new ArrayList<>();
+		return authorities.add(authority);
+	}
 }
