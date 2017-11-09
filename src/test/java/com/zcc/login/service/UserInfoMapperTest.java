@@ -42,13 +42,19 @@ public class UserInfoMapperTest {
 		request.setPhoneNum("111");
 		User user;
 		try{
+			userService.deleteUser(request.getUserName());
 			user = userService.createUser(request);
 			assertNotNull(user);
 			assertNotNull(user.getAuthorities());
 			assertEquals(request.getUserName(),user.getUserName());
+			boolean isExist = userService.isUserNameExist(user.getUserName());
+			assertTrue(isExist);
 			userService.createUser(request);
 		}catch (ServiceException e){
 			assertEquals(e.getErrorCode(), ErrorCodeEnum.USER_NAME_INVALID.getErrorCode());
+			userService.deleteUser(request.getUserName());
+			boolean isExist = userService.isUserNameExist(request.getUserName());
+			assertTrue(!isExist);
 		}
 
 	}

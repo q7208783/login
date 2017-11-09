@@ -30,6 +30,10 @@
         </if>
     </select>
 
+    <select id="userNameExist" parameterType="String" resultType="int">
+        SELECT count(*) FROM user_info WHERE user_name = #{userName}
+    </select>
+
     <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
         INSERT INTO user_info(user_name,user_pwd,user_phone_num,user_mail)
         VALUES (#{userName},#{password},#{phoneNum},#{email})
@@ -42,5 +46,9 @@
             (#{item.authId},#{userId})
         </foreach>
     </insert>
+
+    <delete id="deleteUser" parameterType="String">
+        DELETE FROM user_info WHERE user_name=#{userName}
+    </delete>
 
 </mapper>

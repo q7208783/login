@@ -11,5 +11,6 @@ public interface UserInfoMapper {
 	User getUser(SelectUserRequest request);
 	void createUser(User user);
 	void addAuthority(User user);
-	boolean checkUserNameExist(String userName);
+	int userNameExist(String userName);
+	void deleteUser(String userName);
 }

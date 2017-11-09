@@ -1,7 +1,5 @@
 package com.zcc.login.service.impl;
 
-import static com.zcc.login.constant.AuthorityEnum.USER;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +30,13 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserConverter converter;
 
-	public User findUser(SelectUserRequest request){
+	public User findUser(SelectUserRequest request) {
 		return userInfoMapper.getUser(request);
 	}
 
 	@Transactional
-	public User createUser(CreateUserRequest request) throws ServiceException{
-		if(isUserNameExist(request.getUserName()))
+	public User createUser(CreateUserRequest request) throws ServiceException {
+		if (isUserNameExist(request.getUserName()))
 			throw new ServiceException(ErrorCodeEnum.USER_NAME_INVALID);
 		User user = converter.convertCreateRequestToUser(request);
 		userInfoMapper.createUser(user);
@@ -48,9 +46,16 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	public boolean isUserNameExist(String userName){
-		SelectUserRequest request = new SelectUserRequest();
-		request.setUserName(userName);
-		return userInfoMapper.getUser(request)!=null;
+	public boolean isUserNameExist(String userName) {
+		return userInfoMapper.userNameExist(userName) > 0;
+	}
+
+	@Transactional
+	public boolean deleteUser(String userName){
+		if (!isUserNameExist(userName))
+//			throw new ServiceException(ErrorCodeEnum.USER_NAME_NOT_EXIST);
+			return false;
+		userInfoMapper.deleteUser(userName);
+		return true;
 	}
 }

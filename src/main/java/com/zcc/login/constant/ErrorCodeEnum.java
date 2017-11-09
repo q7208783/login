@@ -4,8 +4,8 @@ package com.zcc.login.constant;
  * Created by ZhangChicheng on 2017/11/9.
  */
 public enum ErrorCodeEnum {
-	USER_NAME_INVALID(10001,"user name has been used, plz use another user name");
-
+	USER_NAME_INVALID(10001,"user name already exist"),
+	USER_NAME_NOT_EXIST(10002,"user name not exist");
 	private int errorCode;
 	private String errorMsg;
 

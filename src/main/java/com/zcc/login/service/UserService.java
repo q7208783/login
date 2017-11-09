@@ -12,4 +12,5 @@ public interface UserService {
 	User findUser(SelectUserRequest request);
 	User createUser(CreateUserRequest request)throws ServiceException;
 	boolean isUserNameExist(String userName);
+	boolean deleteUser(String userName);
 }
