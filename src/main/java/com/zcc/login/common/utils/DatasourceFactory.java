@@ -1,4 +1,4 @@
-package com.zcc.login.utils;
+package com.zcc.login.common.utils;
 
 import java.io.IOException;
 import java.util.HashMap;

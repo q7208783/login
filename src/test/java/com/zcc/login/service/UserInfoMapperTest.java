@@ -8,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.zcc.login.constant.ErrorCodeEnum;
-import com.zcc.login.exception.ServiceException;
+import com.zcc.login.common.constant.ErrorCodeEnum;
+import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.model.User;
 import com.zcc.login.vo.CreateUserRequest;
 import com.zcc.login.vo.SelectUserRequest;

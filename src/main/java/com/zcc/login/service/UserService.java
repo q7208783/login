@@ -1,6 +1,6 @@
 package com.zcc.login.service;
 
-import com.zcc.login.exception.ServiceException;
+import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.model.User;
 import com.zcc.login.vo.CreateUserRequest;
 import com.zcc.login.vo.SelectUserRequest;

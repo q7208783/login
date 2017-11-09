@@ -1,6 +1,6 @@
-package com.zcc.login.exception;
+package com.zcc.login.common.exception;
 
-import com.zcc.login.constant.ErrorCodeEnum;
+import com.zcc.login.common.constant.ErrorCodeEnum;
 
 /**
  * Created by ZhangChicheng on 2017/11/9.

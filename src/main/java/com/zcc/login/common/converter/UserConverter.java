@@ -1,4 +1,4 @@
-package com.zcc.login.converter;
+package com.zcc.login.common.converter;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

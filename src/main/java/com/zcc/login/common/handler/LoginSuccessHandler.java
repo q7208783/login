@@ -1,4 +1,4 @@
-package com.zcc.login.handler;
+package com.zcc.login.common.handler;
 
 import java.io.IOException;
 

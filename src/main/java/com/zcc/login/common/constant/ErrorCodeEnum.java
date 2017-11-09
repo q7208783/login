@@ -1,4 +1,4 @@
-package com.zcc.login.constant;
+package com.zcc.login.common.constant;
 
 /**
  * Created by ZhangChicheng on 2017/11/9.
