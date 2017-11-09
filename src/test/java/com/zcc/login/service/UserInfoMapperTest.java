@@ -56,6 +56,11 @@ public class UserInfoMapperTest {
 			boolean isExist = userService.isUserNameExist(request.getUserName());
 			assertTrue(!isExist);
 		}
+	}
 
+	@Test
+	public void getUserIdTest(){
+		int userId = userService.getUserId("!@#$#%^");
+		assertEquals(userId,-1);
 	}
 }

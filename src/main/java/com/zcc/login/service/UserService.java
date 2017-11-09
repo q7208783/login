@@ -10,7 +10,13 @@ import com.zcc.login.vo.SelectUserRequest;
  */
 public interface UserService {
 	User findUser(SelectUserRequest request);
-	User createUser(CreateUserRequest request)throws ServiceException;
+
+	User createUser(CreateUserRequest request) throws ServiceException;
+
 	boolean isUserNameExist(String userName);
+
 	boolean deleteUser(String userName);
+
+	int getUserId(String userName);
+
 }

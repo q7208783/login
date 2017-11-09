@@ -10,9 +10,11 @@ import com.zcc.login.constant.AuthorityEnum;
 import com.zcc.login.constant.ErrorCodeEnum;
 import com.zcc.login.converter.UserConverter;
 import com.zcc.login.exception.ServiceException;
+import com.zcc.login.mapper.AuthorityMapper;
 import com.zcc.login.mapper.UserInfoMapper;
 import com.zcc.login.model.Authority;
 import com.zcc.login.model.User;
+import com.zcc.login.service.AuthorityService;
 import com.zcc.login.service.UserService;
 import com.zcc.login.vo.CreateUserRequest;
 import com.zcc.login.vo.SelectUserRequest;
@@ -29,6 +31,10 @@ public class UserServiceImpl implements UserService {
 	private UserInfoMapper userInfoMapper;
 	@Autowired
 	private UserConverter converter;
+	@Autowired
+	private AuthorityMapper authorityMapper;
+	@Autowired
+	private AuthorityService authorityService;
 
 	public User findUser(SelectUserRequest request) {
 		return userInfoMapper.getUser(request);
@@ -42,20 +48,29 @@ public class UserServiceImpl implements UserService {
 		userInfoMapper.createUser(user);
 		Authority authority = AuthorityEnum.getAuthority(AuthorityEnum.USER);
 		user.addAuthority(authority);
-		userInfoMapper.addAuthority(user);
+		authorityMapper.addAuthority(user);
 		return user;
 	}
 
 	public boolean isUserNameExist(String userName) {
-		return userInfoMapper.userNameExist(userName) > 0;
+		return userInfoMapper.userNameExistNum(userName) > 0;
+	}
+
+	public int getUserId(String userName) {
+		Integer userId = userInfoMapper.getUserId(userName);
+		if(userId == null)
+			return -1;
+		else
+			return userId.intValue();
 	}
 
 	@Transactional
-	public boolean deleteUser(String userName){
-		if (!isUserNameExist(userName))
-//			throw new ServiceException(ErrorCodeEnum.USER_NAME_NOT_EXIST);
-			return false;
-		userInfoMapper.deleteUser(userName);
-		return true;
+	public boolean deleteUser(String userName) {
+		int userId = getUserId(userName);
+		if (userInfoMapper.deleteUser(userName) > 0) {
+			return authorityService.deleteAllAuthority(userId) > 0;
+		}
+		return false;
 	}
+
 }
