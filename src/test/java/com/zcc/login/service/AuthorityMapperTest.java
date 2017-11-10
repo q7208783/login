@@ -45,6 +45,8 @@ public class AuthorityMapperTest {
 			assertTrue(res1);
 			assertTrue(authorityService.isAuthExist(new UserAuthority(user.getUserId(), AuthorityEnum.ADMIN.getAuthId())));
 			assertTrue(authorityList.size() > 0);
+			boolean res3 = authorityService.deleteAuthority(request.getUserName(),AuthorityEnum.ADMIN);
+			assertTrue(res3);
 			userService.deleteUser(request.getUserName());
 			authorityList = authorityService.getUserAuthorities(request.getUserName());
 			assertTrue(authorityList.size() == 0);

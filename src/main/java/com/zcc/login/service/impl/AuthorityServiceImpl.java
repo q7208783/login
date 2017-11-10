@@ -34,8 +34,8 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public int deleteAllAuthority(int userId) {
-		return authorityMapper.deleteAllAuthority(userId);
+	public int deleteAllAuthorities(int userId) {
+		return authorityMapper.deleteAllAuthorities(userId);
 	}
 
 	@Override
@@ -56,7 +56,14 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public int deleteAuthority(int userId, Authority authority) {
-		return 0;
+	@Transactional
+	public boolean deleteAuthority(String userName, AuthorityEnum authority) {
+		Integer userId = userInfoMapper.getUserId(userName);
+		int authId = authority.getAuthId();
+		UserAuthority userAuthority = new UserAuthority(userId, authId);
+		if(isAuthExist(userAuthority))
+			return authorityMapper.deleteAuthority(userAuthority);
+		else
+			return false;
 	}
 }

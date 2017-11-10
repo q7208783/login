@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 	public boolean deleteUser(String userName) {
 		int userId = getUserId(userName);
 		if (userInfoMapper.deleteUser(userName)) {
-			return opearationSuccess(authorityService.deleteAllAuthority(userId));
+			return opearationSuccess(authorityService.deleteAllAuthorities(userId));
 		}
 		return false;
 	}

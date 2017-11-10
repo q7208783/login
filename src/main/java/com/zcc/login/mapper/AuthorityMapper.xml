@@ -13,8 +13,12 @@
         WHERE U.user_name = #{userName}
     </select>
 
-    <delete id="deleteAllAuthority" parameterType="int">
+    <delete id="deleteAllAuthorities" parameterType="int">
         DELETE FROM user_auth_link WHERE user_id = #{userId}
+    </delete>
+
+    <delete id="deleteAuthority" parameterType="UserAuthority">
+        DELETE FROM user_auth_link WHERE user_id = #{userId} AND auth_id = #{authId}
     </delete>
 
     <insert id="addAuthority" parameterType="UserAuthority">
