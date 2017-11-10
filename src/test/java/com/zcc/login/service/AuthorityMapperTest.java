@@ -39,12 +39,17 @@ public class AuthorityMapperTest {
 			userService.deleteUser(request.getUserName());
 			User user = userService.createUser(request);
 			List<Authority> authorityList = authorityService.getUserAuthorities(request.getUserName());
-			authorityService.addAuthority(user.getUserName(),AuthorityEnum.ADMIN);
-			assertTrue(authorityService.isAuthExist(new UserAuthority(user.getUserId(),AuthorityEnum.ADMIN.getAuthId())));
+			boolean res1 = authorityService.addAuthority(user.getUserName(), AuthorityEnum.ADMIN);
+			boolean res2 = authorityService.addAuthority(user.getUserName(), AuthorityEnum.USER);
+			assertFalse(res2);
+			assertTrue(res1);
+			assertTrue(authorityService.isAuthExist(new UserAuthority(user.getUserId(), AuthorityEnum.ADMIN.getAuthId())));
 			assertTrue(authorityList.size() > 0);
 			userService.deleteUser(request.getUserName());
 			authorityList = authorityService.getUserAuthorities(request.getUserName());
 			assertTrue(authorityList.size() == 0);
+			assertFalse(
+				authorityService.isAuthExist(new UserAuthority(user.getUserId(), AuthorityEnum.ADMIN.getAuthId())));
 		} catch (ServiceException e) {
 
 		}

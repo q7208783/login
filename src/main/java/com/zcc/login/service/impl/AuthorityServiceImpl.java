@@ -40,19 +40,19 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Override
 	@Transactional
-	public int addAuthority(String userName, AuthorityEnum authority) {
+	public boolean addAuthority(String userName, AuthorityEnum authority) {
 		Integer userId = userInfoMapper.getUserId(userName);
 		int authId = authority.getAuthId();
 		UserAuthority userAuthority = new UserAuthority(userId, authId);
 		if(isAuthExist(userAuthority))
-			return OPERATION_FAILED;
+			return false;
 		else
 			return authorityMapper.addAuthority(userAuthority);
 	}
 
 	@Override
 	public boolean isAuthExist(UserAuthority userAuthority) {
-		return containInDb(authorityMapper.isAuthExist(userAuthority));
+		return authorityMapper.isAuthExist(userAuthority);
 	}
 
 	@Override

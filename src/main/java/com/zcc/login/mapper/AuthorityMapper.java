@@ -13,7 +13,7 @@ public interface AuthorityMapper {
 
 	List<Authority> getUserAuthorities(String userName);
 
-	int addAuthority(UserAuthority userAuthority);
+	boolean addAuthority(UserAuthority userAuthority);
 
-	int isAuthExist(UserAuthority userAuthority);
+	boolean isAuthExist(UserAuthority userAuthority);
 }

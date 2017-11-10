@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public boolean isUserNameExist(String userName) {
-		return containInDb(userInfoMapper.userNameExistNum(userName));
+		return userInfoMapper.userNameExist(userName);
 	}
 
 	public int getUserId(String userName) {
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public boolean deleteUser(String userName) {
 		int userId = getUserId(userName);
-		if (opearationSuccess(userInfoMapper.deleteUser(userName))) {
+		if (userInfoMapper.deleteUser(userName)) {
 			return opearationSuccess(authorityService.deleteAllAuthority(userId));
 		}
 		return false;

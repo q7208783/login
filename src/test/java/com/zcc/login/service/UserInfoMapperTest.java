@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.zcc.login.common.constant.CommonConstant;
 import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.model.User;
@@ -60,6 +61,9 @@ public class UserInfoMapperTest {
 		try{
 			userService.deleteUser(request.getUserName());
 			user = userService.createUser(request);
+			SelectUserRequest request1 = new SelectUserRequest();
+			request1.setUserName(request.getUserName());
+			assertEquals(user.getUserId(),userService.findUser(request1).getUserId());
 			assertNotNull(user);
 			assertNotNull(user.getAuthorities());
 			assertEquals(request.getUserName(),user.getUserName());
@@ -77,6 +81,6 @@ public class UserInfoMapperTest {
 	@Test
 	public void getUserIdTest(){
 		int userId = userService.getUserId("!@#$#%^");
-		assertEquals(userId,-1);
+		assertEquals(userId, CommonConstant.OPERATION_FAILED);
 	}
 }

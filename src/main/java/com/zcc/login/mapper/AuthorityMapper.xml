@@ -22,7 +22,7 @@
         VALUES (#{authId},#{userId})
     </insert>
 
-    <select id="isAuthExist" parameterType="UserAuthority" resultType="int">
+    <select id="isAuthExist" parameterType="UserAuthority" resultType="boolean">
         SELECT COUNT(*) FROM user_auth_link WHERE user_id = #{userId} AND auth_id = #{authId}
     </select>
 </mapper>

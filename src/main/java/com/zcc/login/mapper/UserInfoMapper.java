@@ -11,10 +11,10 @@ public interface UserInfoMapper {
 
 	Integer getUserId(String userName);
 
-	int createUser(User user);
+	boolean createUser(User user);
 
-	int userNameExistNum(String userName);
+	boolean userNameExist(String userName);
 
-	int deleteUser(String userName);
+	boolean deleteUser(String userName);
 
 }

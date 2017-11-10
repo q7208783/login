@@ -15,7 +15,7 @@ public interface AuthorityService {
 
 	List<Authority> getUserAuthorities(String userName);
 
-	int addAuthority(String userName, AuthorityEnum authority);
+	boolean addAuthority(String userName, AuthorityEnum authority);
 
 	int deleteAuthority(int userId, Authority authority);
 
