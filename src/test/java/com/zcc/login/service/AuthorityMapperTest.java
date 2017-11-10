@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.zcc.login.common.constant.AuthorityEnum;
 import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.model.Authority;
+import com.zcc.login.model.User;
+import com.zcc.login.model.UserAuthority;
 import com.zcc.login.vo.CreateUserRequest;
 
 /**
@@ -34,15 +37,13 @@ public class AuthorityMapperTest {
 		request.setPhoneNum("111");
 		try {
 			userService.deleteUser(request.getUserName());
-			userService.createUser(request);
-
+			User user = userService.createUser(request);
 			List<Authority> authorityList = authorityService.getUserAuthorities(request.getUserName());
-
+			authorityService.addAuthority(user.getUserName(),AuthorityEnum.ADMIN);
+			assertTrue(authorityService.isAuthExist(new UserAuthority(user.getUserId(),AuthorityEnum.ADMIN.getAuthId())));
 			assertTrue(authorityList.size() > 0);
-
 			userService.deleteUser(request.getUserName());
 			authorityList = authorityService.getUserAuthorities(request.getUserName());
-
 			assertTrue(authorityList.size() == 0);
 		} catch (ServiceException e) {
 

@@ -1,15 +1,19 @@
 package com.zcc.login.service.impl;
 
+import static com.zcc.login.common.constant.CommonConstant.OPERATION_FAILED;
+import static com.zcc.login.common.utils.CommonUtils.containInDb;
+
 import java.util.List;
 
-import com.zcc.login.mapper.UserInfoMapper;
-import com.zcc.login.model.User;
-import com.zcc.login.vo.SelectUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.zcc.login.common.constant.AuthorityEnum;
 import com.zcc.login.mapper.AuthorityMapper;
+import com.zcc.login.mapper.UserInfoMapper;
 import com.zcc.login.model.Authority;
+import com.zcc.login.model.UserAuthority;
 import com.zcc.login.service.AuthorityService;
 
 /**
@@ -17,7 +21,7 @@ import com.zcc.login.service.AuthorityService;
  */
 @Service
 @SuppressWarnings("SpringJavaAutowiringInspection")
-public class AuthorityServiceImpl implements AuthorityService{
+public class AuthorityServiceImpl implements AuthorityService {
 
 	@Autowired
 	AuthorityMapper authorityMapper;
@@ -35,13 +39,20 @@ public class AuthorityServiceImpl implements AuthorityService{
 	}
 
 	@Override
-	public int addAuthority(SelectUserRequest request, Authority authority) {
-		User user = userInfoMapper.getUser(request);
-		List<Authority> authorities = user.getAuthorities();
-		if(!authorities.contains(authority)){
-			authorities.add(authority);
-		}
-		return authorityMapper.addAuthority(user);
+	@Transactional
+	public int addAuthority(String userName, AuthorityEnum authority) {
+		Integer userId = userInfoMapper.getUserId(userName);
+		int authId = authority.getAuthId();
+		UserAuthority userAuthority = new UserAuthority(userId, authId);
+		if(isAuthExist(userAuthority))
+			return OPERATION_FAILED;
+		else
+			return authorityMapper.addAuthority(userAuthority);
+	}
+
+	@Override
+	public boolean isAuthExist(UserAuthority userAuthority) {
+		return containInDb(authorityMapper.isAuthExist(userAuthority));
 	}
 
 	@Override

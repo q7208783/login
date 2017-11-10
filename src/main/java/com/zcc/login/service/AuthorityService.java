@@ -2,7 +2,9 @@ package com.zcc.login.service;
 
 import java.util.List;
 
+import com.zcc.login.common.constant.AuthorityEnum;
 import com.zcc.login.model.Authority;
+import com.zcc.login.model.UserAuthority;
 import com.zcc.login.vo.SelectUserRequest;
 
 /**
@@ -13,7 +15,9 @@ public interface AuthorityService {
 
 	List<Authority> getUserAuthorities(String userName);
 
-	int addAuthority(SelectUserRequest request, Authority authority);
+	int addAuthority(String userName, AuthorityEnum authority);
 
 	int deleteAuthority(int userId, Authority authority);
+
+	boolean isAuthExist(UserAuthority userAuthority);
 }

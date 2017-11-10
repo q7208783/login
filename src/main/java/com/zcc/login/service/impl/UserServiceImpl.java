@@ -1,5 +1,7 @@
 package com.zcc.login.service.impl;
 
+import static com.zcc.login.common.utils.CommonUtils.*;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,13 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zcc.login.common.constant.AuthorityEnum;
+import com.zcc.login.common.constant.CommonConstant;
 import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.converter.UserConverter;
 import com.zcc.login.common.exception.ServiceException;
+import com.zcc.login.common.utils.CommonUtils;
 import com.zcc.login.mapper.AuthorityMapper;
 import com.zcc.login.mapper.UserInfoMapper;
 import com.zcc.login.model.Authority;
 import com.zcc.login.model.User;
+import com.zcc.login.model.UserAuthority;
 import com.zcc.login.service.AuthorityService;
 import com.zcc.login.service.UserService;
 import com.zcc.login.vo.CreateUserRequest;
@@ -47,19 +52,20 @@ public class UserServiceImpl implements UserService {
 		User user = converter.convertCreateRequestToUser(request);
 		userInfoMapper.createUser(user);
 		Authority authority = AuthorityEnum.getAuthority(AuthorityEnum.USER);
+		UserAuthority userAuthority = new UserAuthority(user.getUserId(),authority.getAuthId());
 		user.addAuthority(authority);
-		authorityMapper.addAuthority(user);
+		authorityMapper.addAuthority(userAuthority);
 		return user;
 	}
 
 	public boolean isUserNameExist(String userName) {
-		return userInfoMapper.userNameExistNum(userName) > 0;
+		return containInDb(userInfoMapper.userNameExistNum(userName));
 	}
 
 	public int getUserId(String userName) {
 		Integer userId = userInfoMapper.getUserId(userName);
 		if(userId == null)
-			return -1;
+			return CommonConstant.OPERATION_FAILED;
 		else
 			return userId.intValue();
 	}
@@ -67,8 +73,8 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public boolean deleteUser(String userName) {
 		int userId = getUserId(userName);
-		if (userInfoMapper.deleteUser(userName) > 0) {
-			return authorityService.deleteAllAuthority(userId) > 0;
+		if (opearationSuccess(userInfoMapper.deleteUser(userName))) {
+			return opearationSuccess(authorityService.deleteAllAuthority(userId));
 		}
 		return false;
 	}
