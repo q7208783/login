@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private AuthorityService authorityService;
 
-	public User findUser(SelectUserRequest request) {
+	public User getUser(SelectUserRequest request) {
 		return userInfoMapper.getUser(request);
 	}
 
@@ -78,5 +78,4 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	}
-
 }

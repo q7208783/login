@@ -9,7 +9,7 @@ import com.zcc.login.vo.SelectUserRequest;
  * Created by ZhangChicheng on 2017/11/9.
  */
 public interface UserService {
-	User findUser(SelectUserRequest request);
+	User getUser(SelectUserRequest request);
 
 	User createUser(CreateUserRequest request) throws ServiceException;
 
@@ -18,5 +18,4 @@ public interface UserService {
 	boolean deleteUser(String userName);
 
 	int getUserId(String userName);
-
 }

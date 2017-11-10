@@ -38,7 +38,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.loginPage("/login")
 			.successHandler(successHandler);
 		http.csrf().disable();
-
 	}
 
 	@Override

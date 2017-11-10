@@ -29,14 +29,14 @@ public class UserInfoMapperTest {
 		String userName = "zhangchicheng";
 		SelectUserRequest request = new SelectUserRequest();
 		request.setUserName(userName);
-		User user = userService.findUser(request);
+		User user = userService.getUser(request);
 		assertNotNull(user);
 		assertEquals(user.getUserName(),userName);
 
 		int userId = 2;
 		request = new SelectUserRequest();
 		request.setUserId(userId);
-		user = userService.findUser(request);
+		user = userService.getUser(request);
 		assertNotNull(user);
 		assertEquals(user.getUserId(),userId);
 
@@ -44,7 +44,7 @@ public class UserInfoMapperTest {
 		request = new SelectUserRequest();
 		request.setUserId(userId);
 		request.setUserName(userName);
-		user = userService.findUser(request);
+		user = userService.getUser(request);
 		assertNotNull(user);
 		assertEquals(user.getUserId(),userId);
 		assertEquals(user.getUserName(),userName);
@@ -63,7 +63,7 @@ public class UserInfoMapperTest {
 			user = userService.createUser(request);
 			SelectUserRequest request1 = new SelectUserRequest();
 			request1.setUserName(request.getUserName());
-			assertEquals(user.getUserId(),userService.findUser(request1).getUserId());
+			assertEquals(user.getUserId(),userService.getUser(request1).getUserId());
 			assertNotNull(user);
 			assertNotNull(user.getAuthorities());
 			assertEquals(request.getUserName(),user.getUserName());
