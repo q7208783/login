@@ -21,6 +21,7 @@ import com.zcc.login.model.User;
 import com.zcc.login.model.UserAuthority;
 import com.zcc.login.service.AuthorityService;
 import com.zcc.login.service.UserService;
+import com.zcc.login.user.AuthUser;
 import com.zcc.login.vo.CreateUserRequest;
 import com.zcc.login.vo.SelectUserRequest;
 
@@ -41,8 +42,24 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private AuthorityService authorityService;
 
-	public User getUser(SelectUserRequest request) {
+	private User getUser(SelectUserRequest request) {
 		return userInfoMapper.getUser(request);
+	}
+
+	public AuthUser getAuthUser(String userName){
+		return converter.covertUser2AuthUser(this.getUser(userName));
+	}
+
+	public User getUser(String userName){
+		SelectUserRequest request = new SelectUserRequest();
+		request.setUserName(userName);
+		return this.getUser(request);
+	}
+
+	public User getUser(int userId){
+		SelectUserRequest request = new SelectUserRequest();
+		request.setUserId(userId);
+		return this.getUser(request);
 	}
 
 	@Transactional

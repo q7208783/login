@@ -16,6 +16,8 @@ public class User {
 	private String phoneNum;
 	private List<Authority> authorities;
 	private String email;
+	private String createTimeYmdt;
+	private String lastrResetPwYmdt;
 
 	public boolean addAuthority(Authority authority){
 		if(authorities==null)

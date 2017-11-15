@@ -19,9 +19,13 @@ mybatis:
 
 jwt:
   header: Authorization
-  secret: mySecret
+  secret: emhhbmdjaGljaGVuZw==
   expiration: 604800
   route:
     authentication:
       path: auth
       refresh: refresh
+
+management:
+  security:
+    enabled: false

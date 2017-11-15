@@ -27,24 +27,17 @@ public class UserInfoMapperTest {
 	@Test
 	public void getUserTest() {
 		String userName = "zhangchicheng";
-		SelectUserRequest request = new SelectUserRequest();
-		request.setUserName(userName);
-		User user = userService.getUser(request);
+		User user = userService.getUser(userName);
 		assertNotNull(user);
 		assertEquals(user.getUserName(),userName);
 
 		int userId = 2;
-		request = new SelectUserRequest();
-		request.setUserId(userId);
-		user = userService.getUser(request);
+		user = userService.getUser(userId);
 		assertNotNull(user);
 		assertEquals(user.getUserId(),userId);
 
 		userId =1;
-		request = new SelectUserRequest();
-		request.setUserId(userId);
-		request.setUserName(userName);
-		user = userService.getUser(request);
+		user = userService.getUser(userId);
 		assertNotNull(user);
 		assertEquals(user.getUserId(),userId);
 		assertEquals(user.getUserName(),userName);
@@ -61,9 +54,7 @@ public class UserInfoMapperTest {
 		try{
 			userService.deleteUser(request.getUserName());
 			user = userService.createUser(request);
-			SelectUserRequest request1 = new SelectUserRequest();
-			request1.setUserName(request.getUserName());
-			assertEquals(user.getUserId(),userService.getUser(request1).getUserId());
+			assertEquals(user.getUserId(),userService.getUser(request.getUserName()).getUserId());
 			assertNotNull(user);
 			assertNotNull(user.getAuthorities());
 			assertEquals(request.getUserName(),user.getUserName());

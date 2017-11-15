@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.zcc.login.common.utils.TimeProvider;
+import com.zcc.login.user.AuthUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -14,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by ZhangChicheng on 2017/11/13.
  */
+@Component
 public class JwtTokenUtil implements Serializable {
 	private static final long serialVersionUID = -3301605591108950415L;
 
@@ -32,7 +34,7 @@ public class JwtTokenUtil implements Serializable {
 	static final String AUDIENCE_TABLET = "tablet";
 
 	@Autowired
-	private TimeProvider timeProvider;
+	private DateUtil dateUtil;
 
 	@Value("${jwt.secret}")
 	private String secret;
@@ -99,7 +101,7 @@ public class JwtTokenUtil implements Serializable {
 
 	private Boolean isTokenExpired(String token) {
 		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(timeProvider.now());
+		return expiration.before(dateUtil.now());
 	}
 
 	private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
@@ -129,7 +131,7 @@ public class JwtTokenUtil implements Serializable {
 		claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
 		claims.put(CLAIM_KEY_AUDIENCE, generateAudience(device));
 
-		final Date createdDate = timeProvider.now();
+		final Date createdDate = dateUtil.now();
 		claims.put(CLAIM_KEY_CREATED, createdDate);
 
 		return doGenerateToken(claims);
@@ -158,7 +160,7 @@ public class JwtTokenUtil implements Serializable {
 		String refreshedToken;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			claims.put(CLAIM_KEY_CREATED, timeProvider.now());
+			claims.put(CLAIM_KEY_CREATED, dateUtil.now());
 			refreshedToken = doGenerateToken(claims);
 		} catch (Exception e) {
 			refreshedToken = null;
@@ -166,13 +168,13 @@ public class JwtTokenUtil implements Serializable {
 		return refreshedToken;
 	}
 
-	public Boolean validateToken(String token, String userName) {
+	public Boolean validateToken(String token, UserDetails userDetails) {
+		AuthUser user = (AuthUser) userDetails;
 		final String username = getUsernameFromToken(token);
 		final Date created = getCreatedDateFromToken(token);
-		//final Date expiration = getExpirationDateFromToken(token);
 		return (
-			username.equals(userName)
+			username.equals(user.getUsername())
 				&& !isTokenExpired(token)
-		);
+				&& !isCreatedBeforeLastPasswordReset(created, dateUtil.getDateFromYmdt(user.getLastResetPwYmdt())));
 	}
 }
