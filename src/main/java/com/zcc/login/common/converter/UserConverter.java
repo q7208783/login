@@ -25,6 +25,8 @@ public class UserConverter {
 	}
 
 	public AuthUser covertUser2AuthUser(User user) {
+		if(user == null)
+			return null;
 		String userName = user.getUserName();
 		String password = user.getPassword();
 		List<SimpleGrantedAuthority> authorityList = user.getAuthorities().stream()

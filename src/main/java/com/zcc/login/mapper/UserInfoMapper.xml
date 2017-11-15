@@ -4,6 +4,7 @@
 <mapper namespace="com.zcc.login.mapper.UserInfoMapper">
     <resultMap id="UserMap" type="User">
         <id property="userId" column="user_id"/>
+        <result property="password" column="user_pwd"/>
         <result property="userName" column="user_name"/>
         <result property="phoneNum" column="user_phone_num"/>
         <result property="email" column="user_mail"/>
@@ -17,6 +18,7 @@
         SELECT
         U.user_id,
         U.user_name,
+        U.user_pwd,
         U.user_phone_num,
         U.user_mail,
         A.auth_id,
