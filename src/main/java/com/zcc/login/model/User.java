@@ -3,6 +3,7 @@ package com.zcc.login.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 /**
@@ -12,6 +13,7 @@ import lombok.Data;
 public class User {
 	private int userId;
 	private String userName;
+	@JsonIgnore
 	private String password;
 	private String phoneNum;
 	private List<Authority> authorities;

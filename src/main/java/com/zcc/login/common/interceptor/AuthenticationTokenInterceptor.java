@@ -50,6 +50,7 @@ public class AuthenticationTokenInterceptor implements HandlerInterceptor {
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 				logger.info("authenticated user " + userName + ", setting security context");
 				SecurityContextHolder.getContext().setAuthentication(authentication);
+				httpServletRequest.setAttribute("user", user);
 			}
 		}
 		return true;
