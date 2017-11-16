@@ -1,7 +1,5 @@
 package com.zcc.login.common.constant;
 
-import javax.xml.ws.Service;
-
 /**
  * Created by ZhangChicheng on 2017/11/10.
  */
@@ -11,5 +9,8 @@ public class CommonConstant {
 	public static final int OPERATION_FAILED = -1;
 
 	//CookieName
-	public static final String X_ZCC_TOKEN="X-ZCC-TOKEN";
+	public static final String X_ZCC_TOKEN = "X-ZCC-TOKEN";
+
+	//Domain
+	public static final String DOMAIN_NAME = "zhangcc.group";
 }

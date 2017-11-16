@@ -4,6 +4,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.zcc.login.common.constant.CommonConstant;
+
 /**
  * Created by ZhangChicheng on 2017/11/15.
  */
@@ -28,6 +30,7 @@ public class CookieUtil {
 
 	public static void addCookie(HttpServletResponse response, String key, String value){
 		Cookie cookie = new Cookie(key, value);
+		cookie.setDomain(CommonConstant.DOMAIN_NAME);
 		response.addCookie(cookie);
 	}
 }
