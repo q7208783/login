@@ -57,10 +57,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/*.html",
 				"/favicon.ico",
 				"/**/*.html",
+				"/**/*.png",
+				"/**/*.ttf",
 				"/**/*.css",
-				"/**/*.js"
+				"/**/*.js",
+				"/**/*.gif"
+
 			).permitAll()
-			.antMatchers("/login/**").permitAll()
+			.antMatchers(
+				"/login/**",
+				"/swagger*/**",
+				"/v2/api-docs",
+				"/demo",
+				"/",
+				"/login",
+				"/logout"
+			).permitAll()
 			.anyRequest().authenticated();
 
 		// Custom JWT based security filter

@@ -2,6 +2,7 @@ package com.zcc.login.vo;
 
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
  */
 @Data
 public class ChangePasswordRequest {
+	@ApiModelProperty(hidden = true)
 	private int userId;
 	@NotNull
 	private String userName;
@@ -16,6 +18,6 @@ public class ChangePasswordRequest {
 	private String oldPwd;
 	@NotNull
 	private String newPwd;
-
+	@ApiModelProperty(hidden = true)
 	private String lastrResetPwYmdt;
 }
