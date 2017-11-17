@@ -1,6 +1,7 @@
 package com.zcc.login.mapper;
 
 import com.zcc.login.model.User;
+import com.zcc.login.vo.ChangePasswordRequest;
 import com.zcc.login.vo.SelectUserRequest;
 
 /**
@@ -16,5 +17,7 @@ public interface UserInfoMapper {
 	boolean userNameExist(String userName);
 
 	boolean deleteUser(String userName);
+
+	boolean changePassword(ChangePasswordRequest request);
 
 }

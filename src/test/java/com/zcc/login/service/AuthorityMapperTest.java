@@ -20,8 +20,7 @@ import com.zcc.login.vo.CreateUserRequest;
 /**
  * Created by ZhangChicheng on 2017/11/9.
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
+
 public class AuthorityMapperTest {
 	@Autowired
 	private AuthorityService authorityService;

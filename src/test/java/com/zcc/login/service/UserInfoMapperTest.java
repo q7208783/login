@@ -6,12 +6,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.zcc.login.common.constant.CommonConstant;
 import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.exception.ServiceException;
+import com.zcc.login.controller.UserController;
 import com.zcc.login.model.User;
+import com.zcc.login.vo.ChangePasswordRequest;
 import com.zcc.login.vo.CreateUserRequest;
 import com.zcc.login.vo.SelectUserRequest;
 
@@ -24,6 +27,8 @@ public class UserInfoMapperTest {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	UserController userController;
 	@Test
 	public void getUserTest() {
 		String userName = "zhangchicheng";
@@ -73,5 +78,32 @@ public class UserInfoMapperTest {
 	public void getUserIdTest(){
 		int userId = userService.getUserId("!@#$#%^");
 		assertEquals(userId, CommonConstant.OPERATION_FAILED);
+	}
+
+	@Test
+	public void changePassword(){
+		ChangePasswordRequest request = new ChangePasswordRequest();
+		request.setUserName("zhangchicheng");
+		request.setOldPwd("123456");
+		request.setNewPwd("1234");
+		ResponseEntity<Boolean> res = userController.changePassword(request);
+		assertTrue(res.getBody());
+		res = userController.changePassword(request);
+		assertFalse(res.getBody());
+		request.setNewPwd("123456");
+		request.setOldPwd("1234");
+		res = userController.changePassword(request);
+		assertTrue(res.getBody());
+		request.setUserName("lihao");
+		request.setOldPwd("123456");
+		request.setNewPwd("1234");
+		res = userController.changePassword(request);
+		assertTrue(res.getBody());
+		res = userController.changePassword(request);
+		assertFalse(res.getBody());
+		request.setNewPwd("123456");
+		request.setOldPwd("1234");
+		res = userController.changePassword(request);
+		assertTrue(res.getBody());
 	}
 }

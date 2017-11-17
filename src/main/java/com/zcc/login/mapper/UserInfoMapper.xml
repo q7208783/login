@@ -55,4 +55,12 @@
     <delete id="deleteUser" parameterType="String">
         DELETE FROM user_info WHERE user_name=#{userName}
     </delete>
+
+    <update id="changePassword" parameterType="ChangePasswordRequest">
+        UPDATE user_info SET user_pwd=#{newPwd},last_reset_pw_time_ymdt=#{lastrResetPwYmdt}
+        WHERE user_pwd=#{oldPwd} AND user_name=#{userName}
+        <if test="userId > 0">
+            AND user_id=#{userId}
+        </if>
+    </update>
 </mapper>

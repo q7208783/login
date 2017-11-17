@@ -3,6 +3,7 @@ package com.zcc.login.service;
 import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.model.User;
 import com.zcc.login.user.AuthUser;
+import com.zcc.login.vo.ChangePasswordRequest;
 import com.zcc.login.vo.CreateUserRequest;
 import com.zcc.login.vo.SelectUserRequest;
 
@@ -23,4 +24,6 @@ public interface UserService {
 	boolean deleteUser(String userName);
 
 	int getUserId(String userName);
+
+	boolean changePassword(ChangePasswordRequest request);
 }

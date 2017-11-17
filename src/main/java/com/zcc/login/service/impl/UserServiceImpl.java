@@ -2,6 +2,8 @@ package com.zcc.login.service.impl;
 
 import static com.zcc.login.common.utils.CommonUtils.*;
 
+import java.util.Date;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import com.zcc.login.model.UserAuthority;
 import com.zcc.login.service.AuthorityService;
 import com.zcc.login.service.UserService;
 import com.zcc.login.user.AuthUser;
+import com.zcc.login.vo.ChangePasswordRequest;
 import com.zcc.login.vo.CreateUserRequest;
 import com.zcc.login.vo.SelectUserRequest;
 
@@ -96,5 +99,10 @@ public class UserServiceImpl implements UserService {
 			return opearationSuccess(authorityService.deleteAllAuthorities(userId));
 		}
 		return false;
+	}
+
+	public boolean changePassword(ChangePasswordRequest request){
+		request.setLastrResetPwYmdt(DateUtil.timeStamp());
+		return userInfoMapper.changePassword(request);
 	}
 }
