@@ -10,7 +10,6 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,9 +31,6 @@ public class JwtTokenUtil implements Serializable {
 	static final String AUDIENCE_WEB = "web";
 	static final String AUDIENCE_MOBILE = "mobile";
 	static final String AUDIENCE_TABLET = "tablet";
-
-	@Autowired
-	private DateUtil dateUtil;
 
 	@Value("${jwt.secret}")
 	private String secret;
@@ -101,7 +97,7 @@ public class JwtTokenUtil implements Serializable {
 
 	private Boolean isTokenExpired(String token) {
 		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(dateUtil.now());
+		return expiration.before(DateUtil.now());
 	}
 
 	private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
@@ -131,7 +127,7 @@ public class JwtTokenUtil implements Serializable {
 		claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
 		claims.put(CLAIM_KEY_AUDIENCE, generateAudience(device));
 
-		final Date createdDate = dateUtil.now();
+		final Date createdDate = DateUtil.now();
 		claims.put(CLAIM_KEY_CREATED, createdDate);
 
 		return doGenerateToken(claims);
@@ -160,7 +156,7 @@ public class JwtTokenUtil implements Serializable {
 		String refreshedToken;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			claims.put(CLAIM_KEY_CREATED, dateUtil.now());
+			claims.put(CLAIM_KEY_CREATED, DateUtil.now());
 			refreshedToken = doGenerateToken(claims);
 		} catch (Exception e) {
 			refreshedToken = null;
@@ -175,6 +171,6 @@ public class JwtTokenUtil implements Serializable {
 		return (
 			username.equals(user.getUsername())
 				&& !isTokenExpired(token)
-				&& !isCreatedBeforeLastPasswordReset(created, dateUtil.getDateFromYmdt(user.getLastResetPwYmdt())));
+				&& !isCreatedBeforeLastPasswordReset(created, DateUtil.getDateFromYmdt(user.getLastResetPwYmdt())));
 	}
 }

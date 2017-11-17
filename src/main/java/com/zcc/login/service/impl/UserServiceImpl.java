@@ -13,7 +13,7 @@ import com.zcc.login.common.constant.CommonConstant;
 import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.converter.UserConverter;
 import com.zcc.login.common.exception.ServiceException;
-import com.zcc.login.common.utils.CommonUtils;
+import com.zcc.login.common.utils.DateUtil;
 import com.zcc.login.mapper.AuthorityMapper;
 import com.zcc.login.mapper.UserInfoMapper;
 import com.zcc.login.model.Authority;
@@ -67,6 +67,8 @@ public class UserServiceImpl implements UserService {
 		if (isUserNameExist(request.getUserName()))
 			throw new ServiceException(ErrorCodeEnum.USER_NAME_INVALID);
 		User user = converter.convertCreateRequestToUser(request);
+		user.setCreateTimeYmdt(DateUtil.timeStamp());
+		user.setLastrResetPwYmdt(DateUtil.timeStamp());
 		userInfoMapper.createUser(user);
 		Authority authority = AuthorityEnum.getAuthority(AuthorityEnum.USER);
 		UserAuthority userAuthority = new UserAuthority(user.getUserId(),authority.getAuthId());

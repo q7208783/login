@@ -48,8 +48,8 @@
     </select>
 
     <insert id="createUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId">
-        INSERT INTO user_info(user_name,user_pwd,user_phone_num,user_mail)
-        VALUES (#{userName},#{password},#{phoneNum},#{email})
+        INSERT INTO user_info(user_name,user_pwd,user_phone_num,user_mail,create_time_ymdt,last_reset_pw_time_ymdt)
+        VALUES (#{userName},#{password},#{phoneNum},#{email},#{createTimeYmdt},#{lastrResetPwYmdt})
     </insert>
 
     <delete id="deleteUser" parameterType="String">
