@@ -33,4 +33,11 @@ public class CookieUtil {
 		cookie.setDomain(CommonConstant.DOMAIN_NAME);
 		response.addCookie(cookie);
 	}
+
+	public static void cancelCookie(HttpServletResponse response, String key){
+		Cookie cookie = new Cookie(key, null);
+		cookie.setDomain(CommonConstant.DOMAIN_NAME);
+		cookie.setMaxAge(0);
+		response.addCookie(cookie);
+	}
 }

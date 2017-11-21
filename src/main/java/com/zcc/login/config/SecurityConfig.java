@@ -12,9 +12,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 
 import com.zcc.login.common.handler.LoginSuccessHandler;
+import com.zcc.login.common.interceptor.AuthenticationTokenFilter;
 import com.zcc.login.user.CustomUserService;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * Created by ZhangChicheng on 2017/10/30.
@@ -27,30 +31,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private CustomUserService userService;
 	@Autowired
 	private LoginSuccessHandler successHandler;
+	@Autowired
+	private AuthenticationTokenFilter filter;
 
 	// TODO: 2017/10/30  http://blog.csdn.net/eunyeon/article/details/52892028
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-//		http.authorizeRequests()
-		//			.antMatchers("/register","/login")
-		//			.permitAll()
-		//			.anyRequest()
-		//			.authenticated();
-		//		http.formLogin()
-		//			.loginPage("/login")
-		//			.successHandler(successHandler);
-		//		http.csrf().disable();
 		http
-			// we don't need CSRF because our token is invulnerable
 			.csrf().disable()
-
 			// don't create session
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-
 			.authorizeRequests()
-			//.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
-			// allow anonymous resource requests
 			.antMatchers(
 				HttpMethod.GET,
 				"/",
@@ -62,7 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/**/*.css",
 				"/**/*.js",
 				"/**/*.gif"
-
 			).permitAll()
 			.antMatchers(
 				"/login/**",
@@ -74,11 +64,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/logout"
 			).permitAll()
 			.anyRequest().authenticated();
-
 		// Custom JWT based security filter
-
 		// disable page caching
 		http.headers().cacheControl();
+		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 	}
 
 	@Override

@@ -28,6 +28,7 @@ import com.zcc.login.user.AuthUser;
 import com.zcc.login.vo.LoginRequest;
 import com.zcc.login.vo.LoginResponse;
 import lombok.extern.apachecommons.CommonsLog;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * Created by ZhangChicheng on 2017/10/30.
@@ -66,12 +67,12 @@ public class LoginController {
 
 	@PostMapping("/logout")
 	public ResponseEntity<Void> logout(HttpServletResponse response){
-		CookieUtil.addCookie(response, CommonConstant.X_ZCC_TOKEN, null);
+		CookieUtil.cancelCookie(response, CommonConstant.X_ZCC_TOKEN);
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
 	@PostMapping("/userInfo")
-	public ResponseEntity<User> user(@RequestAttribute("user")User user, HttpServletRequest request){
+	public ResponseEntity<User> user(@ApiIgnore @RequestAttribute("user")User user){
 		return new ResponseEntity(user, HttpStatus.OK);
 	}
 }

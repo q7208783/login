@@ -26,13 +26,8 @@ public class DateUtil implements Serializable {
     }
 
     public static Date getDateFromYmdt(String ymdt){
-        SimpleDateFormat format = new SimpleDateFormat(timePattern);
-        Date date = null;
-        try{
-            date = format.parse(ymdt);
-        }catch (ParseException e) {
-            LOGGER.error("TimeStamp format error: " + e.getMessage());
-        }
+        Instant timestamp = Instant.parse(ymdt);
+        Date date = Date.from(timestamp);
         return date;
     }
 }
