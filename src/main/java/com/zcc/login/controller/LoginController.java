@@ -71,7 +71,7 @@ public class LoginController {
 		return new ResponseEntity(HttpStatus.OK);
 	}
 
-	@PostMapping("/userInfo")
+	@GetMapping("/userInfo")
 	public ResponseEntity<User> user(@ApiIgnore @RequestAttribute("user")User user){
 		return new ResponseEntity(user, HttpStatus.OK);
 	}

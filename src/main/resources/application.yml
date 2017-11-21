@@ -8,11 +8,11 @@ spring:
       max-lifetime: 1765000
       maximum-pool-size: 15
 
-logging:
-  file: /home/zhangcc/logs/tomcat/user_account.log
-  level:
-    com:
-      zcc: debug
+#logging:
+#  file: /home/zhangcc/logs/tomcat/user_account.log
+#  level:
+#    com:
+#      zcc: debug
 
 
 mybatis:

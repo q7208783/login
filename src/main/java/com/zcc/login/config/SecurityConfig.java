@@ -1,7 +1,6 @@
 package com.zcc.login.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,15 +9,12 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 
+import com.zcc.login.common.handler.JwtAuthenticationEntryPoint;
 import com.zcc.login.common.handler.LoginSuccessHandler;
-import com.zcc.login.common.interceptor.AuthenticationTokenFilter;
+import com.zcc.login.common.filter.AuthenticationTokenFilter;
 import com.zcc.login.user.CustomUserService;
-import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * Created by ZhangChicheng on 2017/10/30.
@@ -33,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private LoginSuccessHandler successHandler;
 	@Autowired
 	private AuthenticationTokenFilter filter;
+	@Autowired
+	private JwtAuthenticationEntryPoint unauthorizedHandler;
 
 	// TODO: 2017/10/30  http://blog.csdn.net/eunyeon/article/details/52892028
 	@Override
@@ -67,7 +65,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// Custom JWT based security filter
 		// disable page caching
 		http.headers().cacheControl();
+		//setAuthentication这个的Filter一定要放在UsernamePasswordAuthenticationFilter之前才可以
 		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
+		//自己实现logout需要将这个去掉，不然会变为GET/login?logout
+		http.logout().disable();
+		//验证错误的handler
+		http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
+		//允许跨域
+		//http.addFilterBefore(new CorsFilter(), ChannelProcessingFilter.class)
 	}
 
 	@Override
