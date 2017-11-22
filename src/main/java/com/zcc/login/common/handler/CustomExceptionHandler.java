@@ -1,9 +1,11 @@
 package com.zcc.login.common.handler;
 
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.exception.CommonException;
 import com.zcc.login.vo.ExceptionResponse;
 
@@ -18,6 +20,15 @@ public class CustomExceptionHandler {
 		ExceptionResponse response = new ExceptionResponse();
 		response.setErrorCode(e.getErrorCode());
 		response.setErrorMsg(e.getErrorMsg());
+		return response;
+	}
+
+	@ExceptionHandler
+	@ResponseBody
+	public ExceptionResponse handleAuthenticationException(AuthenticationException e){
+		ExceptionResponse response = new ExceptionResponse();
+		response.setErrorCode(ErrorCodeEnum.AUTH_FAILURE.getErrorCode());
+		response.setErrorMsg(e.getMessage());
 		return response;
 	}
 }
