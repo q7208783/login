@@ -1,0 +1,33 @@
+package com.zcc.login.common.constant;
+
+/**
+ * Created by ZhangChicheng on 2017/11/9.
+ */
+public enum ErrorCodeEnum {
+
+	DEFAULT_ERROR(10000,"Default error"),
+
+	AUTH_FAILURE(10001,"AUTHORIZED FAILED!"),
+
+	USER_NAME_ALREADY_EXIST(10010,"User Name Is Already Exist"),
+	USER_NAME_NOT_EXIST(10011,"User Name Not Exist"),
+
+	USER_AUTH_NOT_EXIST(10020,"User not contain this authority"),
+	USER_AUTH_ALREADY_EXIST(10021,"User auth is already contain authority");
+
+	private int errorCode;
+	private String errorMsg;
+
+	ErrorCodeEnum(int errorCode, String errorMsg) {
+		this.errorCode = errorCode;
+		this.errorMsg = errorMsg;
+	}
+
+	public int getErrorCode() {
+		return errorCode;
+	}
+
+	public String getErrorMsg() {
+		return errorMsg;
+	}
+}

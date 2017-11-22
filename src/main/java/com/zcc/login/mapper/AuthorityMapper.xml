@@ -13,15 +13,20 @@
         WHERE U.user_name = #{userName}
     </select>
 
-    <delete id="deleteAllAuthority" parameterType="int">
+    <delete id="deleteAllAuthorities" parameterType="int">
         DELETE FROM user_auth_link WHERE user_id = #{userId}
     </delete>
 
-    <insert id="addAuthority" parameterType="User">
+    <delete id="deleteAuthority" parameterType="UserAuthority">
+        DELETE FROM user_auth_link WHERE user_id = #{userId} AND auth_id = #{authId}
+    </delete>
+
+    <insert id="addAuthority" parameterType="UserAuthority">
         INSERT INTO user_auth_link(auth_id,user_id)
-        VALUES
-        <foreach item="item" collection="authorities" separator=",">
-            (#{item.authId},#{userId})
-        </foreach>
+        VALUES (#{authId},#{userId})
     </insert>
+
+    <select id="isAuthExist" parameterType="UserAuthority" resultType="boolean">
+        SELECT COUNT(*) FROM user_auth_link WHERE user_id = #{userId} AND auth_id = #{authId}
+    </select>
 </mapper>

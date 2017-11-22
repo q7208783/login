@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.zcc.login.exception.ServiceException;
+import com.zcc.login.common.constant.AuthorityEnum;
+import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.model.Authority;
+import com.zcc.login.model.User;
+import com.zcc.login.model.UserAuthority;
 import com.zcc.login.vo.CreateUserRequest;
 
 /**
@@ -34,16 +37,21 @@ public class AuthorityMapperTest {
 		request.setPhoneNum("111");
 		try {
 			userService.deleteUser(request.getUserName());
-			userService.createUser(request);
-
+			User user = userService.createUser(request);
 			List<Authority> authorityList = authorityService.getUserAuthorities(request.getUserName());
-
+			boolean res1 = authorityService.addAuthority(user.getUserName(), AuthorityEnum.ADMIN);
+			boolean res2 = authorityService.addAuthority(user.getUserName(), AuthorityEnum.USER);
+			assertFalse(res2);
+			assertTrue(res1);
+			assertTrue(authorityService.isAuthExist(new UserAuthority(user.getUserId(), AuthorityEnum.ADMIN.getAuthId())));
 			assertTrue(authorityList.size() > 0);
-
+			boolean res3 = authorityService.deleteAuthority(request.getUserName(),AuthorityEnum.ADMIN);
+			assertTrue(res3);
 			userService.deleteUser(request.getUserName());
 			authorityList = authorityService.getUserAuthorities(request.getUserName());
-
 			assertTrue(authorityList.size() == 0);
+			assertFalse(
+				authorityService.isAuthExist(new UserAuthority(user.getUserId(), AuthorityEnum.ADMIN.getAuthId())));
 		} catch (ServiceException e) {
 
 		}

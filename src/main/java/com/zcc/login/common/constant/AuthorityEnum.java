@@ -1,4 +1,4 @@
-package com.zcc.login.constant;
+package com.zcc.login.common.constant;
 
 import com.zcc.login.model.Authority;
 

@@ -5,14 +5,13 @@ import javax.validation.constraints.NotNull;
 import lombok.Data;
 
 /**
- * Created by ZhangChicheng on 2017/11/9.
+ * Created by ZhangChicheng on 2017/11/15.
  */
 @Data
-public class CreateUserRequest {
+public class LoginRequest {
 	@NotNull
-	private String userName;
+	private String username;
 	@NotNull
 	private String password;
-	private String phoneNum;
-	private String email;
 }
+
