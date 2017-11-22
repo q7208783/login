@@ -13,4 +13,10 @@ public class CommonConstant {
 
 	//Domain
 	public static final String DOMAIN_NAME = "zhangcc.group";
+
+	//exception msg prefix
+	public static final String SERVICE_EX_PREFIX = "service.errorcode.";
+
+	public static final String COMMON_EX_PREFIX = "common.errorcode.";
+
 }

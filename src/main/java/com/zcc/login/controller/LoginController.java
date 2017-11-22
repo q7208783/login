@@ -62,7 +62,7 @@ public class LoginController {
 		User user = userService.getUser(request.getUsername());
 		String token = jwtTokenUtil.generateToken(user.getUserName(), device);
 		CookieUtil.addCookie(response, CommonConstant.X_ZCC_TOKEN, token);
-		return new ResponseEntity(user, HttpStatus.OK);
+		return new ResponseEntity(token, HttpStatus.OK);
 	}
 
 	@PostMapping("/logout")

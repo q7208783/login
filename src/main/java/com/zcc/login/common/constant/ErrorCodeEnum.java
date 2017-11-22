@@ -4,10 +4,17 @@ package com.zcc.login.common.constant;
  * Created by ZhangChicheng on 2017/11/9.
  */
 public enum ErrorCodeEnum {
-	USER_NAME_INVALID(10001,"User Name Is Already Exist"),
-	USER_NAME_NOT_EXIST(10002,"User Name Not Exist"),
 
-	AUTH_FAILURE(10010,"AUTHORIZED FAILED!");
+	DEFAULT_ERROR(10000,"Default error"),
+
+	AUTH_FAILURE(10001,"AUTHORIZED FAILED!"),
+
+	USER_NAME_ALREADY_EXIST(10010,"User Name Is Already Exist"),
+	USER_NAME_NOT_EXIST(10011,"User Name Not Exist"),
+
+	USER_AUTH_NOT_EXIST(10020,"User not contain this authority"),
+	USER_AUTH_ALREADY_EXIST(10021,"User auth is already contain authority");
+
 	private int errorCode;
 	private String errorMsg;
 

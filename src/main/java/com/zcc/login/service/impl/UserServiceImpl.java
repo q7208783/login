@@ -2,8 +2,6 @@ package com.zcc.login.service.impl;
 
 import static com.zcc.login.common.utils.CommonUtils.*;
 
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zcc.login.common.constant.AuthorityEnum;
-import com.zcc.login.common.constant.CommonConstant;
 import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.converter.UserConverter;
 import com.zcc.login.common.exception.ServiceException;
@@ -68,7 +65,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public User createUser(CreateUserRequest request) throws ServiceException {
 		if (isUserNameExist(request.getUserName()))
-			throw new ServiceException(ErrorCodeEnum.USER_NAME_INVALID);
+			throw new ServiceException(ErrorCodeEnum.USER_NAME_ALREADY_EXIST);
 		User user = converter.convertCreateRequestToUser(request);
 		user.setCreateTimeYmdt(DateUtil.timeStamp());
 		user.setLastrResetPwYmdt(DateUtil.timeStamp());
@@ -84,16 +81,16 @@ public class UserServiceImpl implements UserService {
 		return userInfoMapper.userNameExist(userName);
 	}
 
-	public int getUserId(String userName) {
+	public int getUserId(String userName) throws ServiceException{
 		Integer userId = userInfoMapper.getUserId(userName);
 		if(userId == null)
-			return CommonConstant.OPERATION_FAILED;
+			throw new ServiceException(ErrorCodeEnum.USER_NAME_NOT_EXIST);
 		else
 			return userId.intValue();
 	}
 
 	@Transactional
-	public boolean deleteUser(String userName) {
+	public boolean deleteUser(String userName) throws ServiceException{
 		int userId = getUserId(userName);
 		if (userInfoMapper.deleteUser(userName)) {
 			return opearationSuccess(authorityService.deleteAllAuthorities(userId));
@@ -101,6 +98,7 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
+	@Transactional
 	public boolean changePassword(ChangePasswordRequest request){
 		request.setLastrResetPwYmdt(DateUtil.timeStamp());
 		return userInfoMapper.changePassword(request);

@@ -21,9 +21,9 @@ public interface UserService {
 
 	boolean isUserNameExist(String userName);
 
-	boolean deleteUser(String userName);
+	boolean deleteUser(String userName)throws ServiceException;
 
-	int getUserId(String userName);
+	int getUserId(String userName)throws ServiceException;
 
 	boolean changePassword(ChangePasswordRequest request);
 }

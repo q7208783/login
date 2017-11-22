@@ -1,8 +1,5 @@
 package com.zcc.login.service.impl;
 
-import static com.zcc.login.common.constant.CommonConstant.OPERATION_FAILED;
-import static com.zcc.login.common.utils.CommonUtils.containInDb;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.zcc.login.common.constant.AuthorityEnum;
+import com.zcc.login.common.constant.ErrorCodeEnum;
+import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.mapper.AuthorityMapper;
 import com.zcc.login.mapper.UserInfoMapper;
 import com.zcc.login.model.Authority;
@@ -34,18 +33,18 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
-	public int deleteAllAuthorities(int userId) {
+	public int deleteAllAuthorities(int userId){
 		return authorityMapper.deleteAllAuthorities(userId);
 	}
 
 	@Override
 	@Transactional
-	public boolean addAuthority(String userName, AuthorityEnum authority) {
+	public boolean addAuthority(String userName, AuthorityEnum authority) throws ServiceException{
 		Integer userId = userInfoMapper.getUserId(userName);
 		int authId = authority.getAuthId();
 		UserAuthority userAuthority = new UserAuthority(userId, authId);
 		if(isAuthExist(userAuthority))
-			return false;
+			throw new ServiceException(ErrorCodeEnum.USER_AUTH_ALREADY_EXIST);
 		else
 			return authorityMapper.addAuthority(userAuthority);
 	}
@@ -57,13 +56,13 @@ public class AuthorityServiceImpl implements AuthorityService {
 
 	@Override
 	@Transactional
-	public boolean deleteAuthority(String userName, AuthorityEnum authority) {
+	public boolean deleteAuthority(String userName, AuthorityEnum authority) throws ServiceException {
 		Integer userId = userInfoMapper.getUserId(userName);
 		int authId = authority.getAuthId();
 		UserAuthority userAuthority = new UserAuthority(userId, authId);
 		if(isAuthExist(userAuthority))
 			return authorityMapper.deleteAuthority(userAuthority);
 		else
-			return false;
+			throw new ServiceException(ErrorCodeEnum.USER_AUTH_NOT_EXIST);
 	}
 }

@@ -16,7 +16,6 @@ import com.zcc.login.controller.UserController;
 import com.zcc.login.model.User;
 import com.zcc.login.vo.ChangePasswordRequest;
 import com.zcc.login.vo.CreateUserRequest;
-import com.zcc.login.vo.SelectUserRequest;
 
 /**
  * Created by ZhangChicheng on 2017/11/8.
@@ -49,7 +48,7 @@ public class UserInfoMapperTest {
 	}
 
 	@Test
-	public void createUserTest(){
+	public void createUserTest() throws ServiceException{
 		CreateUserRequest request = new CreateUserRequest();
 		request.setUserName("test");
 		request.setPassword("123");
@@ -57,7 +56,11 @@ public class UserInfoMapperTest {
 		request.setPhoneNum("111");
 		User user;
 		try{
-			userService.deleteUser(request.getUserName());
+			try{
+				userService.deleteUser(request.getUserName());
+			}catch (ServiceException ex){
+				assertEquals(ex.getErrorCode(),ErrorCodeEnum.USER_NAME_NOT_EXIST.getErrorCode());
+			}
 			user = userService.createUser(request);
 			assertEquals(user.getUserId(),userService.getUser(request.getUserName()).getUserId());
 			assertNotNull(user);
@@ -67,7 +70,7 @@ public class UserInfoMapperTest {
 			assertTrue(isExist);
 			userService.createUser(request);
 		}catch (ServiceException e){
-			assertEquals(e.getErrorCode(), ErrorCodeEnum.USER_NAME_INVALID.getErrorCode());
+			assertEquals(e.getErrorCode(), ErrorCodeEnum.USER_NAME_ALREADY_EXIST.getErrorCode());
 			userService.deleteUser(request.getUserName());
 			boolean isExist = userService.isUserNameExist(request.getUserName());
 			assertFalse(isExist);
@@ -76,8 +79,11 @@ public class UserInfoMapperTest {
 
 	@Test
 	public void getUserIdTest(){
-		int userId = userService.getUserId("!@#$#%^");
-		assertEquals(userId, CommonConstant.OPERATION_FAILED);
+		try{
+			int userId = userService.getUserId("!@#$#%^");
+		}catch (ServiceException ex){
+			assertEquals(ex.getErrorCode(),ErrorCodeEnum.USER_NAME_NOT_EXIST.getErrorCode());
+		}
 	}
 
 	@Test

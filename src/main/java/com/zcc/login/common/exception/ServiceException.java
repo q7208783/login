@@ -7,7 +7,7 @@ import com.zcc.login.common.constant.ErrorCodeEnum;
  */
 public class ServiceException extends CommonException{
 
-	private final static String DEFAULT_MSG = "数据暂时异常，请稍后再试！";
+	private final static String DEFAULT_MSG = "service.default.error";
 	private final static int DEFAULT_CODE = 10000;
 
 	public ServiceException(){
