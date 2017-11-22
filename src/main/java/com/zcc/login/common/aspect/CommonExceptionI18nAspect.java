@@ -48,6 +48,9 @@ public class CommonExceptionI18nAspect {
 
 		Locale locale = localeResolver.resolveLocale(request);
 
+
+
+
 		String propertyCode;
 		String message;
 		if (ex instanceof ServiceException) {
