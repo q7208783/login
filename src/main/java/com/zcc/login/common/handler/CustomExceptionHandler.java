@@ -14,18 +14,18 @@ import com.zcc.login.vo.ExceptionResponse;
  */
 @ControllerAdvice
 public class CustomExceptionHandler {
-	@ExceptionHandler
+	@ExceptionHandler(CommonException.class)
 	@ResponseBody
-	public ExceptionResponse handleServiceException(CommonException e){
+	public ExceptionResponse handleServiceException(CommonException e) {
 		ExceptionResponse response = new ExceptionResponse();
 		response.setErrorCode(e.getErrorCode());
 		response.setErrorMsg(e.getErrorMsg());
 		return response;
 	}
 
-	@ExceptionHandler
+	@ExceptionHandler(AuthenticationException.class)
 	@ResponseBody
-	public ExceptionResponse handleAuthenticationException(AuthenticationException e){
+	public ExceptionResponse handleAuthenticationException(AuthenticationException e) {
 		ExceptionResponse response = new ExceptionResponse();
 		response.setErrorCode(ErrorCodeEnum.AUTH_FAILURE.getErrorCode());
 		response.setErrorMsg(e.getMessage());

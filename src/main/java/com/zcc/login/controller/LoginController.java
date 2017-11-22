@@ -1,5 +1,6 @@
 package com.zcc.login.controller;
 
+import javax.security.auth.message.AuthException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -51,7 +52,7 @@ public class LoginController {
 
 	@PostMapping("/login")
 	public ResponseEntity<User> login(@RequestBody @Valid LoginRequest request, Device device,
-		HttpServletResponse response) {
+		HttpServletResponse response) throws AuthException{
 		final Authentication authentication = authenticationManager.authenticate(
 			new UsernamePasswordAuthenticationToken(
 				request.getUsername(),
