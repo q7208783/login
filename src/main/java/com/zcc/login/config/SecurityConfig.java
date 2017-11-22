@@ -59,7 +59,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/demo",
 				"/",
 				"/login",
-				"/logout"
+				"/logout",
+				"/user/**"
 			).permitAll()
 			.anyRequest().authenticated();
 		// Custom JWT based security filter

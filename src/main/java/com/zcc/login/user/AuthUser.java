@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class AuthUser implements UserDetails{
 	private String userName;
+	@JsonIgnore
 	private String password;
 	private String lastResetPwYmdt;
 	private Collection<? extends GrantedAuthority> authorities;

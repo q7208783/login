@@ -1,5 +1,7 @@
 package com.zcc.login.vo;
 
+import javax.validation.constraints.NotNull;
+
 import lombok.Data;
 
 /**
@@ -7,7 +9,9 @@ import lombok.Data;
  */
 @Data
 public class CreateUserRequest {
+	@NotNull
 	private String userName;
+	@NotNull
 	private String password;
 	private String phoneNum;
 	private String email;
