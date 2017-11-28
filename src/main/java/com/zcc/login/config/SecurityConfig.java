@@ -53,13 +53,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/**/*.gif"
 			).permitAll()
 			.antMatchers(
-				"/login/**",
 				"/swagger*/**",
 				"/v2/api-docs",
 				"/demo",
 				"/",
-				"/login",
-				"/logout",
+				"/auth/login",
+				"/auth/login/**",
 				"/user/**"
 			).permitAll()
 			.anyRequest().authenticated();
@@ -70,8 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
 		//自己实现logout需要将这个去掉，不然会变为GET/login?logout
 		http.logout().disable();
-
-		http.formLogin();
+		http.rememberMe();
 		//验证错误的handler
 		http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler);
 		//允许跨域

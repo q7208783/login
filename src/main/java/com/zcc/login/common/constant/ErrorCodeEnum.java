@@ -7,8 +7,9 @@ public enum ErrorCodeEnum {
 
 	DEFAULT_ERROR(10000,"Default error"),
 
-	AUTH_FAILURE(10001,"AUTHORIZED FAILED!"),
+	SQL_ERROR(10001,"SQL got error!"),
 
+	AUTH_FAILURE(10002,"AUTHORIZED FAILED!"),
 	USER_NAME_ALREADY_EXIST(10010,"User Name Is Already Exist"),
 	USER_NAME_NOT_EXIST(10011,"User Name Not Exist"),
 

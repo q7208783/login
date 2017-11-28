@@ -5,6 +5,8 @@ import static com.zcc.login.common.utils.CommonUtils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,6 +43,8 @@ public class UserServiceImpl implements UserService {
 	private AuthorityMapper authorityMapper;
 	@Autowired
 	private AuthorityService authorityService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
 	private User getUser(SelectUserRequest request) {
 		return userInfoMapper.getUser(request);
@@ -99,7 +103,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public boolean changePassword(ChangePasswordRequest request){
+	public boolean changePassword(ChangePasswordRequest request)throws ServiceException{
+		try{
+			authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(
+					request.getUserName(),
+					request.getOldPwd()
+				)
+			);
+		}catch (Exception e){
+			throw new ServiceException(ErrorCodeEnum.AUTH_FAILURE);
+		}
 		request.setLastrResetPwYmdt(DateUtil.timeStamp());
 		return userInfoMapper.changePassword(request);
 	}

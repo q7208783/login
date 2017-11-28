@@ -2,8 +2,11 @@ package com.zcc.login.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,5 +21,11 @@ public class CommonBeanConfig {
 		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
 		return modelMapper;
+	}
+
+	@Bean
+	public MessageSourceAccessor messageSourceAccessor(MessageSource messageSource){
+		MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(messageSource);
+		return messageSourceAccessor;
 	}
 }
