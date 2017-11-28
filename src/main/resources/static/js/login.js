@@ -2,7 +2,6 @@
  * Created by NCP-620 on 2017/8/18.
  */
 
-
 $(function () {
 
     var TOKEN_KEY = "jwtToken"
@@ -10,9 +9,11 @@ $(function () {
     function setJwtToken(token) {
         localStorage.setItem(TOKEN_KEY, token);
     }
+
     function getJwtToken() {
         return localStorage.getItem(TOKEN_KEY);
     }
+
     function removeJwtToken() {
         localStorage.removeItem(TOKEN_KEY);
     }
@@ -27,13 +28,9 @@ $(function () {
         doLogin(formData);
     });
 
-    $("#register").click(function () {
-        location.href="/register"
-    });
-
     function doLogin(loginData) {
         $.ajax({
-            url:"/login",
+            url:"/auth/login",
             type: "POST",
             data: JSON.stringify(loginData),
             contentType: "application/json; charset=utf-8",
