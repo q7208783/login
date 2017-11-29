@@ -7,6 +7,9 @@ spring:
     hikari:
       max-lifetime: 1765000
       maximum-pool-size: 15
+  thymeleaf:
+    cache: false
+    prefix: classpath:/static/html/
 
 #logging:
 #  file: /home/zhangcc/logs/tomcat/user_account.log
