@@ -2,6 +2,7 @@ package com.zcc.login.service;
 
 import static org.junit.Assert.*;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.controller.UserController;
 import com.zcc.login.model.User;
 import com.zcc.login.vo.ChangePasswordRequest;
+import com.zcc.login.vo.CommonResponse;
 import com.zcc.login.vo.CreateUserRequest;
 
 /**
@@ -92,24 +94,35 @@ public class UserInfoMapperTest {
 		request.setUserName("zhangchicheng");
 		request.setOldPwd("123456");
 		request.setNewPwd("1234");
-		ResponseEntity<Boolean> res = userController.changePassword(request);
-		assertTrue(res.getBody());
-		res = userController.changePassword(request);
-		assertFalse(res.getBody());
-		request.setNewPwd("123456");
-		request.setOldPwd("1234");
-		res = userController.changePassword(request);
-		assertTrue(res.getBody());
-		request.setUserName("lihao");
-		request.setOldPwd("123456");
-		request.setNewPwd("1234");
-		res = userController.changePassword(request);
-		assertTrue(res.getBody());
-		res = userController.changePassword(request);
-		assertFalse(res.getBody());
-		request.setNewPwd("123456");
-		request.setOldPwd("1234");
-		res = userController.changePassword(request);
-		assertTrue(res.getBody());
+		try{
+			CommonResponse<Boolean> res = userController.changePassword(request);
+			assertTrue(res.getData());
+			try{
+				userController.changePassword(request);
+			}catch (ServiceException e){
+				Assert.assertEquals(e.getErrorCode(), ErrorCodeEnum.AUTH_FAILURE.getErrorCode());
+			}
+			request.setNewPwd("123456");
+			request.setOldPwd("1234");
+			res = userController.changePassword(request);
+			assertTrue(res.getData());
+			request.setUserName("lihao");
+			request.setOldPwd("123456");
+			request.setNewPwd("1234");
+			res = userController.changePassword(request);
+			assertTrue(res.getData());
+			try{
+				userController.changePassword(request);
+			}catch (ServiceException e){
+				Assert.assertEquals(e.getErrorCode(), ErrorCodeEnum.AUTH_FAILURE.getErrorCode());
+			}
+			request.setNewPwd("123456");
+			request.setOldPwd("1234");
+			res = userController.changePassword(request);
+			assertTrue(res.getData());
+			userController.changePassword(request);
+		}catch (ServiceException e){
+			Assert.assertEquals(e.getErrorCode(), ErrorCodeEnum.AUTH_FAILURE.getErrorCode());
+		}
 	}
 }

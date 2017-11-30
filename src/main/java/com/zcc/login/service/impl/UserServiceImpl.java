@@ -5,16 +5,20 @@ import static com.zcc.login.common.utils.CommonUtils.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zcc.login.common.annotation.DataSourceType;
 import com.zcc.login.common.constant.AuthorityEnum;
+import com.zcc.login.common.constant.DataSourceEnum;
 import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.converter.UserConverter;
 import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.common.utils.DateUtil;
-import com.zcc.login.mapper.AuthorityMapper;
-import com.zcc.login.mapper.UserInfoMapper;
+import com.zcc.login.mapper.login.AuthorityMapper;
+import com.zcc.login.mapper.login.UserInfoMapper;
 import com.zcc.login.model.Authority;
 import com.zcc.login.model.User;
 import com.zcc.login.model.UserAuthority;
@@ -29,6 +33,7 @@ import com.zcc.login.vo.SelectUserRequest;
  * Created by ZhangChicheng on 2017/10/30.
  */
 @Service
+@DataSourceType(DataSourceEnum.LOGIN)
 @SuppressWarnings("SpringJavaAutowiringInspection")
 public class UserServiceImpl implements UserService {
 
@@ -41,6 +46,8 @@ public class UserServiceImpl implements UserService {
 	private AuthorityMapper authorityMapper;
 	@Autowired
 	private AuthorityService authorityService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
 	private User getUser(SelectUserRequest request) {
 		return userInfoMapper.getUser(request);
@@ -99,7 +106,17 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public boolean changePassword(ChangePasswordRequest request){
+	public boolean changePassword(ChangePasswordRequest request)throws ServiceException{
+		try{
+			authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(
+					request.getUserName(),
+					request.getOldPwd()
+				)
+			);
+		}catch (Exception e){
+			throw new ServiceException(ErrorCodeEnum.AUTH_FAILURE);
+		}
 		request.setLastrResetPwYmdt(DateUtil.timeStamp());
 		return userInfoMapper.changePassword(request);
 	}

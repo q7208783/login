@@ -25,5 +25,5 @@ public interface UserService {
 
 	int getUserId(String userName)throws ServiceException;
 
-	boolean changePassword(ChangePasswordRequest request);
+	boolean changePassword(ChangePasswordRequest request)throws ServiceException;
 }
