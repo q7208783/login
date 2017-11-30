@@ -15,10 +15,15 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 @CommonsLog
 public class HomeController {
-	@GetMapping("/")
+	@GetMapping({"/","/login"})
 	@ApiIgnore
-	public String login(HttpServletRequest request,
-		Model model){
+	public String login(){
 		return "login";
+	}
+
+	@GetMapping("/test")
+	@ApiIgnore
+	public String test(){
+		return "test";
 	}
 }

@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zcc.login.common.annotation.DataSourceType;
 import com.zcc.login.common.constant.AuthorityEnum;
+import com.zcc.login.common.constant.DataSourceEnum;
 import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.exception.ServiceException;
-import com.zcc.login.mapper.AuthorityMapper;
-import com.zcc.login.mapper.UserInfoMapper;
+import com.zcc.login.mapper.login.AuthorityMapper;
+import com.zcc.login.mapper.login.UserInfoMapper;
 import com.zcc.login.model.Authority;
 import com.zcc.login.model.UserAuthority;
 import com.zcc.login.service.AuthorityService;
@@ -19,6 +21,7 @@ import com.zcc.login.service.AuthorityService;
  * Created by ZhangChicheng on 2017/11/9.
  */
 @Service
+@DataSourceType(DataSourceEnum.LOGIN)
 @SuppressWarnings("SpringJavaAutowiringInspection")
 public class AuthorityServiceImpl implements AuthorityService {
 

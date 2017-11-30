@@ -10,7 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.zcc.login.common.annotation.DataSourceType;
 import com.zcc.login.common.constant.CommonConstant;
+import com.zcc.login.common.constant.DataSourceEnum;
 import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.common.utils.CookieUtil;
@@ -23,6 +25,7 @@ import com.zcc.login.vo.LoginRequest;
  * Created by ZhangChicheng on 2017/11/27.
  */
 @Service
+@DataSourceType(DataSourceEnum.LOGIN)
 public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private AuthenticationManager authenticationManager;

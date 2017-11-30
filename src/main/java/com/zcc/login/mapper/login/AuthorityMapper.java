@@ -1,4 +1,4 @@
-package com.zcc.login.mapper;
+package com.zcc.login.mapper.login;
 
 import java.util.List;
 
