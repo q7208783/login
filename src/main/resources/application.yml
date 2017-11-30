@@ -7,17 +7,14 @@ spring:
     cache: false
     prefix: classpath:/static/html/
 
-login:
-  datasource:
-    url: jdbc:mysql://rm-wz92xoj923k8s3v8do.mysql.rds.aliyuncs.com:3306/user-account?useUnicode=true&characterEncoding=utf-8&useSSL=false
+datasource:
+  login:
+    jdbc-url: jdbc:mysql://rm-wz92xoj923k8s3v8do.mysql.rds.aliyuncs.com:3306/user-account?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: Zc57198083
     driver-class-name: com.mysql.jdbc.Driver
-
-
-linkhome:
-  datasource:
-    url: jdbc:mysql://rm-wz92xoj923k8s3v8do.mysql.rds.aliyuncs.com:3306/link-home?useUnicode=true&characterEncoding=utf-8&useSSL=false
+  linkhome:
+    jdbc-url: jdbc:mysql://rm-wz92xoj923k8s3v8do.mysql.rds.aliyuncs.com:3306/link-home?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password: Zc57198083
     driver-class-name: com.mysql.jdbc.Driver

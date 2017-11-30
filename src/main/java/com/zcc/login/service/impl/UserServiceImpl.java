@@ -10,7 +10,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zcc.login.common.annotation.DataSourceType;
 import com.zcc.login.common.constant.AuthorityEnum;
+import com.zcc.login.common.constant.DataSourceEnum;
 import com.zcc.login.common.constant.ErrorCodeEnum;
 import com.zcc.login.common.converter.UserConverter;
 import com.zcc.login.common.exception.ServiceException;
@@ -31,6 +33,7 @@ import com.zcc.login.vo.SelectUserRequest;
  * Created by ZhangChicheng on 2017/10/30.
  */
 @Service
+@DataSourceType(DataSourceEnum.LOGIN)
 @SuppressWarnings("SpringJavaAutowiringInspection")
 public class UserServiceImpl implements UserService {
 

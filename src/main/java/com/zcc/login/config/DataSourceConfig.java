@@ -6,22 +6,23 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 /**
  * Created by ZhangChicheng on 2017/11/29.
  */
 @Configuration
 public class DataSourceConfig {
-
-	@Bean(name="loginDS")
-	@ConfigurationProperties(prefix = "spring.datasource.login")
-	public DataSource dataSource1(){
+	@Primary
+	@Bean("loginDs")
+	@ConfigurationProperties("datasource.login")
+	public DataSource loginDs() {
 		return DataSourceBuilder.create().build();
 	}
 
-	@Bean(name="linkhomeDS")
-	@ConfigurationProperties(prefix = "spring.datasource.linkhome")
-	public DataSource dataSource2(){
+	@Bean("linkhomeDs")
+	@ConfigurationProperties("datasource.linkhome")
+	public DataSource linkhomeDs() {
 		return DataSourceBuilder.create().build();
 	}
 }
