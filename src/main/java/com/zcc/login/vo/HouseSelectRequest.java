@@ -4,13 +4,14 @@ import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.zcc.login.model.PageInfo;
 import lombok.Data;
 
 /**
  * Created by ZhangChicheng on 2017/12/1.
  */
 @Data
-public class HouseSelectRequest {
+public class HouseSelectRequest extends PageInfo{
 	private List<Integer> areaIds;
 	@NotEmpty
 	private List<Integer> districtIds;
@@ -22,6 +23,4 @@ public class HouseSelectRequest {
 	private Double unitPriceFrom;
 	private Double unitPriceTo;
 	private String haveElevator;
-	private Integer pageSize;
-	private Integer pageNo;
 }

@@ -1,8 +1,5 @@
 package com.zcc.login.common.utils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +10,8 @@ import com.zcc.login.common.constant.CommonConstant;
  * Created by ZhangChicheng on 2017/11/15.
  */
 public class CookieUtil {
+
+
 	public static String getCookieValue(HttpServletRequest request, String cookieName) {
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
@@ -35,7 +34,7 @@ public class CookieUtil {
 		Cookie cookie = new Cookie(key, value);
 		cookie.setDomain(CommonConstant.DOMAIN_NAME);
 		cookie.setPath("/");
-		cookie.setMaxAge(3600);
+		cookie.setMaxAge(604800);
 		response.addCookie(cookie);
 	}
 

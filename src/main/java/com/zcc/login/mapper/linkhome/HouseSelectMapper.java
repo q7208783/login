@@ -13,7 +13,10 @@ import com.zcc.login.vo.HouseSelectRequest;
  */
 public interface HouseSelectMapper {
 	List<House> selectHouses(HouseSelectRequest request);
+
 	Area getAreaById(Integer areaId);
+
 	City getCityById(Integer cityId);
+
 	District getDistrictById(Integer districtId);
 }

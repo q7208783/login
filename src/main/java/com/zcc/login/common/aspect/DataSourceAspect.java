@@ -4,6 +4,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
 
 import com.zcc.login.common.annotation.DataSourceType;
@@ -18,6 +20,9 @@ import lombok.extern.apachecommons.CommonsLog;
 @Component
 @CommonsLog
 public class DataSourceAspect {
+
+	@Autowired
+	DataSourceTransactionManager dataSourceTransactionManager;
 
 	@Around("execution(* com.zcc.login.service.impl.*Impl.*(..))")
 	public Object switchDataSource(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -37,6 +42,8 @@ public class DataSourceAspect {
 
 		DataSourceEnum dataSourceEnum = anno.value();
 		DataSourceContextHolder.setDataSourceType(dataSourceEnum);
+
+
 		Object result;
 		log.debug("Now datasource is : " + dataSourceEnum.name().toString());
 		try {

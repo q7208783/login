@@ -28,7 +28,7 @@
         <result property="cityId" column="city_no"/>
     </resultMap>
 
-    <resultMap id="districtMap" type="Ditrict">
+    <resultMap id="districtMap" type="District">
         <id property="districtId" column="district_no"/>
         <result property="districtName" column="district_name"/>
         <result property="districtPinyinName" column="district_name_pinyin"/>
@@ -79,6 +79,8 @@
             </foreach>
         </if>
     </select>
+
+
 
     <select id="getAreaById" parameterType="Integer" resultMap="areaMap">
         SELECT A.area_no,A.area_name,A.district_no,A.city_no,A.area_name_pinyin FROM area A
