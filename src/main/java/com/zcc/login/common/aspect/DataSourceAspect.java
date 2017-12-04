@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.annotation.Order;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,7 @@ import lombok.extern.apachecommons.CommonsLog;
 @Aspect
 @Component
 @CommonsLog
+@Order(AspectOrder.HIGH_PRIORITY)
 public class DataSourceAspect {
 	@Autowired
 	DataSourceTransactionManager dataSourceTransactionManager;
