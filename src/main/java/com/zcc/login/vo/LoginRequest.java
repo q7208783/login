@@ -2,6 +2,9 @@ package com.zcc.login.vo;
 
 import javax.validation.constraints.NotNull;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 
 /**
@@ -9,9 +12,11 @@ import lombok.Data;
  */
 @Data
 public class LoginRequest {
-	@NotNull
-	private String username;
-	@NotNull
-	private String password;
+    @NotNull
+    @ApiModelProperty(example = "test", required = true)
+    private String username;
+    @NotNull
+    @ApiModelProperty(example = "123456", required = true)
+    private String password;
 }
 

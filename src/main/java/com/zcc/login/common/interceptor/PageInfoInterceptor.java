@@ -71,7 +71,6 @@ public class PageInfoInterceptor implements Interceptor {
 			//分页计算
 			MethodAccess ma = MethodAccess.get(parameter.getClass());
 			PageInfo pageInfo = (PageInfo)ma.invoke(parameter, "getPageInfo");
-			//((PageInfo)parameter).setTotalRows(totalRows);
 			pageInfo.setTotalRows(totalRows);
 
 			int offset = (pageInfo.getPageNo() - 1) * (pageInfo.getPageSize());

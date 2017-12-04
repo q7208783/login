@@ -2,6 +2,7 @@ package com.zcc.login.vo;
 
 import java.util.List;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.zcc.login.model.PageInfo;
@@ -14,6 +15,7 @@ import lombok.Data;
 public class HouseSelectRequest{
 	private List<Integer> areaIds;
 	@NotEmpty
+	@ApiModelProperty(required = true)
 	private List<Integer> districtIds;
 	private Double priceFrom;
 	private Double priceTo;
@@ -23,6 +25,5 @@ public class HouseSelectRequest{
 	private Double unitPriceFrom;
 	private Double unitPriceTo;
 	private String haveElevator;
-
 	private PageInfo pageInfo;
 }
