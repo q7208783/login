@@ -1,11 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zcc.login.mapper.linkhome.HouseSelectMapper">
+    <resultMap id="houseMap" type="House">
+        <id property="houseId" column="house_no"/>
+        <result property="title" column="title"/>
+        <result property="price" column="house_price"/>
+        <result property="size" column="house_size"/>
+        <result property="structure" column="house_structure"/>
+        <result property="url" column="house_url"/>
+        <result property="orient" column="house_orient"/>
+        <result property="elevator" column="elevator"/>
+        <result property="address" column="house_address"/>
+        <result property="attentionNum" column="attention_num"/>
+        <result property="visitNum" column="visit_num"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="createDate" column="create_time"/>
+        <result property="areaId" column="area_no"/>
+        <result property="districtId" column="district_no"/>
+        <result property="cityId" column="city_no"/>
+    </resultMap>
 
-    <select id="getUserAuthorities" parameterType="String" resultMap="authorities">
-        SELECT A.auth_id,A.auth_name FROM auth_info A
-        LEFT JOIN user_auth_link L ON L.auth_id=A.auth_id
-        LEFT JOIN user_info U ON L.user_id = U.user_id
-        WHERE U.user_name = #{userName}
+    <resultMap id="areaMap" type="Area">
+        <id property="areaId" column="area_no"/>
+        <result property="areaName" column="area_name"/>
+        <result property="areaPinyinName" column="area_name_pinyin"/>
+        <result property="districtId" column="district_no"/>
+        <result property="cityId" column="city_no"/>
+    </resultMap>
+
+    <resultMap id="districtMap" type="Ditrict">
+        <id property="districtId" column="district_no"/>
+        <result property="districtName" column="district_name"/>
+        <result property="districtPinyinName" column="district_name_pinyin"/>
+        <result property="cityId" column="city_no"/>
+    </resultMap>
+
+    <resultMap id="cityMap" type="City">
+        <id property="cityId" column="city_no"/>
+        <result property="cityName" column="city_name"/>
+        <result property="cityCode" column="city_name_simple"/>
+        <result property="cityPinyinName" column="city_name_pinyin"/>
+    </resultMap>
+
+    <select id="selectHouses" parameterType="HouseSelectRequest" resultMap="houseMap">
+        SELECT H.house_no,H.title,H.house_price,H.house_size,H.house_structure,H.house_url,H.house_orient,H.elevator,
+        H.house_address,H.attention_num,H.visit_num,H.unit_price,H.create_time,H.area_no,H.district_no,H.city_no
+        FROM house H
+        WHERE
+        H.district_no IN
+        <foreach collection="districtIds" item="districtNo" index="index" open="(" separator="," close=")">
+            #{districtNo}
+        </foreach>
+        <if test="priceFrom!=null">
+            AND H.house_price &gt; #{priceFrom}
+        </if>
+        <if test="priceTo!=null">
+            AND H.house_price &lt; #{priceTo}
+        </if>
+        <if test="sizeFrom!=null">
+            AND H.house_size &gt; #{sizeFrom}
+        </if>
+        <if test="sizeTo!=null">
+            AND H.house_size &lt; #{sizeTo}
+        </if>
+        <if test="unitPriceFrom!=null">
+            AND H.unit_price &gt; #{unitPriceFrom}
+        </if>
+        <if test="unitPriceTo!=null">
+            AND H.unit_price &lt; #{unitPriceTo}
+        </if>
+        <if test="haveElevator!=null">
+            AND H.elevator = #{haveElevator}
+        </if>
+        <if test="structures!=null and structures.size()!=0">
+            AND
+            <foreach collection="structures" item="structure" index="index" open="(" separator="," close=")">
+                H.house_structure LIKE '%${structure}%'
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getAreaById" parameterType="Integer" resultMap="areaMap">
+        SELECT A.area_no,A.area_name,A.district_no,A.city_no,A.area_name_pinyin FROM area A
+        WHERE A.area_no = #{areaId}
+    </select>
+
+    <select id="getDistrictById" parameterType="Integer" resultMap="districtMap">
+        SELECT D.district_no,D.city_no,D.district_name,D.district_name_pinyin FROM district D
+        WHERE C.city_no = #{districtId}
+    </select>
+
+    <select id="getCityById" parameterType="Integer" resultMap="cityMap">
+        SELECT C.city_no,C.city_name,C.city_name_simple,C.city_name_pinyin FROM city C
+        WHERE C.city_no = #{cityId}
     </select>
 </mapper>

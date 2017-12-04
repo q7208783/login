@@ -54,6 +54,6 @@ public class LoginServiceImpl implements LoginService {
 
 	@Override
 	public void logout(HttpServletResponse response) {
-		CookieUtil.cancelCookie(response, CommonConstant.X_ZCC_TOKEN);
+		CookieUtil.deleleCookie(response, CommonConstant.X_ZCC_TOKEN);
 	}
 }

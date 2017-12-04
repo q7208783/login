@@ -7,8 +7,8 @@ import lombok.Data;
  */
 @Data
 public class District {
-	private int districtId;
+	private Integer districtId;
 	private String districtName;
 	private String districtPinyinName;
-	private City city;
+	private Integer cityId;
 }

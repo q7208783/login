@@ -7,8 +7,9 @@ import lombok.Data;
  */
 @Data
 public class Area {
-	private int areaId;
+	private Integer areaId;
 	private String areaName;
 	private String areaPinyinName;
-	private District district;
+	private Integer cityId;
+	private Integer districtId;
 }

@@ -1,5 +1,8 @@
 package com.zcc.login.common.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,12 +34,15 @@ public class CookieUtil {
 	public static void addCookie(HttpServletResponse response, String key, String value){
 		Cookie cookie = new Cookie(key, value);
 		cookie.setDomain(CommonConstant.DOMAIN_NAME);
+		cookie.setPath("/");
+		cookie.setMaxAge(3600);
 		response.addCookie(cookie);
 	}
 
-	public static void cancelCookie(HttpServletResponse response, String key){
+	public static void deleleCookie(HttpServletResponse response, String key){
 		Cookie cookie = new Cookie(key, null);
 		cookie.setDomain(CommonConstant.DOMAIN_NAME);
+		cookie.setPath("/");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
 	}
