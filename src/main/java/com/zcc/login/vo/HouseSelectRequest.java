@@ -11,7 +11,7 @@ import lombok.Data;
  * Created by ZhangChicheng on 2017/12/1.
  */
 @Data
-public class HouseSelectRequest extends PageInfo{
+public class HouseSelectRequest{
 	private List<Integer> areaIds;
 	@NotEmpty
 	private List<Integer> districtIds;
@@ -23,4 +23,6 @@ public class HouseSelectRequest extends PageInfo{
 	private Double unitPriceFrom;
 	private Double unitPriceTo;
 	private String haveElevator;
+
+	private PageInfo pageInfo;
 }

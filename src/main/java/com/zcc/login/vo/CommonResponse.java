@@ -1,5 +1,6 @@
 package com.zcc.login.vo;
 
+import com.zcc.login.model.PageInfo;
 import lombok.Data;
 
 /**
@@ -11,6 +12,7 @@ public class CommonResponse<T> {
 	private String returnMsg;
 	private T data;
 	private String procTime;
+	private PageInfo pageInfo;
 
 	public CommonResponse(){}
 

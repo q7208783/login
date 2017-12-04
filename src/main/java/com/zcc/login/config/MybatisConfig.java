@@ -32,17 +32,17 @@ public class MybatisConfig {
 	@Value("${mybatis.type-aliases-package}")
 	private String typeAliasesPackage;
 
+	@Autowired
+	PageInfoInterceptor infoInterceptor;
+
 	@Bean("dynamicDataSource")
-	public DynamicDataSource dynamicDataSource(@Qualifier("loginDs") DataSource loginDs,
-		@Qualifier("linkhomeDs") DataSource linkhomeDs) {
+	public DynamicDataSource dynamicDataSource(@Qualifier("dsMap") Map<DataSourceEnum, DataSource> dsMap) {
 		Map<Object, Object> targetDataSources = new HashMap<>();
-
-		targetDataSources.put(DataSourceEnum.LOGIN, loginDs);
-		targetDataSources.put(DataSourceEnum.LINK_HOME, linkhomeDs);
-
+		targetDataSources.putAll(dsMap);
+		DataSource defaultDs = dsMap.get(DataSourceEnum.LOGIN);
 		DynamicDataSource dataSource = new DynamicDataSource();
 		dataSource.setTargetDataSources(targetDataSources);// 该方法是AbstractRoutingDataSource的方法
-		dataSource.setDefaultTargetDataSource(loginDs);// 默认的datasource设置为myTestDbDataSource
+		dataSource.setDefaultTargetDataSource(defaultDs);// 默认的datasource设置为myTestDbDataSource
 
 		return dataSource;
 	}
@@ -57,7 +57,7 @@ public class MybatisConfig {
 		factoryBean.setDataSource(dynamicDataSource);// 指定数据源(这个必须有，否则报错)
 		// 下边两句仅仅用于*.xml文件，如果整个持久层操作不需要使用到xml文件的话（只用注解就可以搞定），则不加
 		factoryBean.setTypeAliasesPackage(typeAliasesPackage);// 指定基包
-		//factoryBean.setPlugins(new Interceptor[]{infoInterceptor});
+		factoryBean.setPlugins(new Interceptor[]{infoInterceptor});
 		//        factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocations));//
 		return factoryBean.getObject();
 	}

@@ -15,6 +15,7 @@ import com.zcc.login.model.House;
 import com.zcc.login.service.HouseService;
 import com.zcc.login.vo.CommonResponse;
 import com.zcc.login.vo.HouseSelectRequest;
+import lombok.extern.apachecommons.CommonsLog;
 
 /**
  * Created by ZhangChicheng on 2017/12/1.
@@ -29,6 +30,8 @@ public class HouseController {
 	@ResponseBody
 	public CommonResponse<List<House>> queryHouses(HouseSelectRequest request)throws ServiceException{
 		List<House> houses = houseService.selectHouses(request);
-		return new CommonResponse<>(houses);
+		CommonResponse<List<House>> commonResponse = new CommonResponse(houses);
+		commonResponse.setPageInfo(request.getPageInfo());
+		return commonResponse;
 	}
 }

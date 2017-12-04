@@ -122,6 +122,12 @@
 			<groupId>com.zaxxer</groupId>
 			<artifactId>HikariCP</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.esotericsoftware/reflectasm -->
+		<dependency>
+			<groupId>com.esotericsoftware</groupId>
+			<artifactId>reflectasm</artifactId>
+			<version>1.11.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
