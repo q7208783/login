@@ -10,6 +10,8 @@ import com.zcc.login.common.constant.CommonConstant;
  * Created by ZhangChicheng on 2017/11/15.
  */
 public class CookieUtil {
+
+
 	public static String getCookieValue(HttpServletRequest request, String cookieName) {
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
@@ -31,12 +33,15 @@ public class CookieUtil {
 	public static void addCookie(HttpServletResponse response, String key, String value){
 		Cookie cookie = new Cookie(key, value);
 		cookie.setDomain(CommonConstant.DOMAIN_NAME);
+		cookie.setPath("/");
+		cookie.setMaxAge(604800);
 		response.addCookie(cookie);
 	}
 
-	public static void cancelCookie(HttpServletResponse response, String key){
+	public static void deleleCookie(HttpServletResponse response, String key){
 		Cookie cookie = new Cookie(key, null);
 		cookie.setDomain(CommonConstant.DOMAIN_NAME);
+		cookie.setPath("/");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
 	}
