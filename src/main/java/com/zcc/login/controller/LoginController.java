@@ -46,9 +46,9 @@ public class LoginController {
 
 	@PostMapping("/logout")
 	@ResponseBody
-	public CommonResponse<Void> logout(HttpServletResponse response){
+	public CommonResponse<String> logout(@ApiIgnore @RequestAttribute("user")User user, HttpServletResponse response){
 		loginService.logout(response);
-		return new CommonResponse();
+		return new CommonResponse(user.getUserName()+" is logout");
 	}
 
 	@GetMapping("/userInfo")

@@ -8,13 +8,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.zcc.login.common.annotation.DataSourceType;
 import com.zcc.login.common.constant.DataSourceEnum;
+import com.zcc.login.common.converter.HouseConverter;
 import com.zcc.login.common.exception.ServiceException;
+import com.zcc.login.dto.BindHouseDto;
 import com.zcc.login.mapper.linkhome.HouseSelectMapper;
 import com.zcc.login.model.Area;
 import com.zcc.login.model.City;
 import com.zcc.login.model.District;
 import com.zcc.login.model.House;
 import com.zcc.login.service.HouseService;
+import com.zcc.login.vo.BindHouseRequest;
 import com.zcc.login.vo.HouseSelectRequest;
 
 /**
@@ -26,6 +29,8 @@ import com.zcc.login.vo.HouseSelectRequest;
 public class HouseServiceImpl implements HouseService {
 	@Autowired
 	private HouseSelectMapper houseSelectMapper;
+	@Autowired
+	private HouseConverter houseConverter;
 
 	@Override
 	@Transactional
@@ -46,5 +51,25 @@ public class HouseServiceImpl implements HouseService {
 	@Override
 	public City getCityById(Integer cityId) throws ServiceException {
 		return houseSelectMapper.getCityById(cityId);
+	}
+
+	@Override
+	@Transactional
+	public Boolean bindHouseCondition(BindHouseRequest request) throws ServiceException {
+		BindHouseDto bindHouseDto = houseConverter.bindHouseConverterDto(request);
+		if(!houseSelectMapper.updateBindHouse(bindHouseDto))
+			return houseSelectMapper.bindHouseCondition(bindHouseDto);
+		return Boolean.TRUE;
+	}
+
+	@Override
+	public BindHouseRequest queryHouseCondition(Integer userId) throws ServiceException {
+		BindHouseDto bindHouseDto = houseSelectMapper.queryHouseCondition(userId);
+		return houseConverter.bindHouseConverterReq(bindHouseDto);
+	}
+
+	@Override
+	public Boolean deleteBindHouse(Integer userId) throws ServiceException {
+		return houseSelectMapper.deleteBindHouse(userId);
 	}
 }

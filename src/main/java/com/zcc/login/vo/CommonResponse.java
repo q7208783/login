@@ -20,6 +20,10 @@ public class CommonResponse<T> {
 		this.data = data;
 	}
 
+	public CommonResponse(int returnCode){
+		this.returnCode=returnCode;
+	}
+
 	public CommonResponse(int returnCode, T data) {
 		this.returnCode = returnCode;
 		this.data = data;

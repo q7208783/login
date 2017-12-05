@@ -41,6 +41,21 @@
         <result property="cityCode" column="city_name_simple"/>
         <result property="cityPinyinName" column="city_name_pinyin"/>
     </resultMap>
+    
+    <resultMap id="bindHouseMap" type="BindHouseDto">
+        <result property="userId" column="user_id"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="phoneNum" column="user_phonenum"/>
+        <result property="districtIds" column="district_ids"/>
+        <result property="priceFrom" column="house_price_from"/>
+        <result property="priceTo" column="house_price_to"/>
+        <result property="sizeFrom" column="house_size_from"/>
+        <result property="sizeTo" column="house_size_to"/>
+        <result property="structures" column="structures"/>
+        <result property="unitPriceFrom" column="house_unitprice_from"/>
+        <result property="unitPriceTo" column="house_unitprice_to"/>
+        <result property="haveElevator" column="have_elevator"/>
+    </resultMap>
 
     <select id="selectHouses" parameterType="HouseSelectRequest" resultMap="houseMap">
         SELECT H.house_no,H.title,H.house_price,H.house_size,H.house_structure,H.house_url,H.house_orient,H.elevator,
@@ -78,9 +93,8 @@
                 H.house_structure LIKE '%${structure}%'
             </foreach>
         </if>
+        ORDER BY H.house_no DESC
     </select>
-
-
 
     <select id="getAreaById" parameterType="Integer" resultMap="areaMap">
         SELECT A.area_no,A.area_name,A.district_no,A.city_no,A.area_name_pinyin FROM area A
@@ -96,4 +110,28 @@
         SELECT C.city_no,C.city_name,C.city_name_simple,C.city_name_pinyin FROM city C
         WHERE C.city_no = #{cityId}
     </select>
+
+    <select id="queryHouseCondition" parameterType="Integer" resultMap="bindHouseMap">
+        SELECT user_id,user_email,user_phonenum,house_price_from,house_price_to,house_size_from,house_size_to,
+        house_unitprice_from,house_unitprice_to,have_elevator,district_ids,structures
+        FROM house_condition WHERE user_id=#{userId}
+    </select>
+    
+    <insert id="bindHouseCondition" parameterType="BindHouseDto">
+        INSERT INTO house_condition(user_id,user_email,user_phonenum,house_price_from,house_price_to,house_size_from,house_size_to,
+        house_unitprice_from,house_unitprice_to,have_elevator,district_ids,structures)
+        VALUES (#{userId},#{userEmail},#{phoneNum},#{priceFrom},#{priceTo},#{sizeFrom},#{sizeTo},#{unitPriceFrom},#{unitPriceTo},
+        #{haveElevator},#{districtIds},#{structures})
+    </insert>
+
+    <update id="updateBindHouse" parameterType="BindHouseDto">
+        UPDATE house_condition SET house_price_from=#{priceFrom},house_price_to=#{priceTo},house_size_from=#{sizeFrom},
+        house_size_to=#{sizeTo},house_unitprice_from=#{unitPriceFrom},house_unitprice_to=#{unitPriceTo},
+        have_elevator=#{haveElevator},district_ids=#{districtIds},structures=#{structures}
+        WHERE user_id = #{userId}
+    </update>
+
+    <delete id="deleteBindHouse" parameterType="Integer">
+        DELETE FROM house_condition WHERE user_id = #{userId}
+    </delete>
 </mapper>
