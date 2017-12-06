@@ -8,7 +8,7 @@ import com.zcc.login.common.constant.ErrorCodeEnum;
 public class ServiceException extends CommonException{
 
 	private final static String DEFAULT_MSG = "service.default.error";
-	private final static int DEFAULT_CODE = 10000;
+	private final static String DEFAULT_CODE = "10000";
 
 	public ServiceException(){
 		this.errorCode = DEFAULT_CODE;
@@ -20,7 +20,7 @@ public class ServiceException extends CommonException{
 		this.errorMsg = errorCodeEnum.getErrorMsg();
 	}
 
-	public ServiceException(int errorCode, String errorMsg) {
+	public ServiceException(String errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

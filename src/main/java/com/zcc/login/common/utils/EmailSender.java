@@ -1,9 +1,10 @@
 package com.zcc.login.common.utils;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import com.aliyuncs.DefaultAcsClient;
@@ -14,6 +15,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.config.PasswordConfig;
 
 /**
@@ -30,29 +32,35 @@ public class EmailSender {
 	private PasswordConfig passwordConfig;
 
 	@PostConstruct
-	public void init(){
-		profile = DefaultProfile.getProfile("cn-hangzhou", passwordConfig.getAliyunAccessKeyId(), passwordConfig.getAliyunAccessSecret());
+	public void init() {
+		profile = DefaultProfile.getProfile("cn-hangzhou", passwordConfig.getAliyunAccessKeyId(),
+			passwordConfig.getAliyunAccessSecret());
 		client = new DefaultAcsClient(profile);
 		request = new SingleSendMailRequest();
 	}
 
-	public void send(){
+	public void send(List<String> emailAddressArray, String title, String content) throws ServiceException{
 		try {
 			request.setAccountName("batch@mail.zhangcc.group");
 			request.setFromAlias("皮条张");
 			request.setAddressType(1);
 			request.setTagName("HomeLink");
 			request.setReplyToAddress(true);
-			request.setToAddress("576926338@qq.com");
-			request.setSubject("Test");
-			request.setHtmlBody("test1111");
-			SingleSendMailResponse httpResponse = client.getAcsResponse(request);
+			request.setSubject(title);
+			request.setHtmlBody("您订阅的二手房监控发现一个新房源满足您的需求\n" +
+				"你可以点击以下链接查看：" + formateUrl(content));
+			for (int i = 0; i < emailAddressArray.size(); ++i) {
+				request.setToAddress(emailAddressArray.get(i));
+				SingleSendMailResponse httpResponse = client.getAcsResponse(request);
+			}
 		} catch (ServerException e) {
-			e.printStackTrace();
-		}
-		catch (ClientException e) {
-			e.printStackTrace();
+			throw new ServiceException(e.getErrCode(),e.getErrMsg());
+		} catch (ClientException e) {
+			throw new ServiceException(e.getErrCode(),e.getErrMsg());
 		}
 	}
 
+	private String formateUrl(String url) {
+		return "<a href=”" + url + "”>" + url + "</a>";
+	}
 }

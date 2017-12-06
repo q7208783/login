@@ -62,9 +62,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				"/auth/login/**",
 				"/user/**"
 			).permitAll()
+
+			.antMatchers("/admin/**").hasRole("ADMIN")
+			
 			.anyRequest().authenticated();
 		// Custom JWT based security filter
 		// disable page caching
+
 		http.headers().cacheControl();
 		//setAuthentication这个的Filter一定要放在UsernamePasswordAuthenticationFilter之前才可以
 		http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);

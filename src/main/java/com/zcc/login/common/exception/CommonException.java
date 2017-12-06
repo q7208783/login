@@ -6,7 +6,7 @@ import com.zcc.login.common.constant.ErrorCodeEnum;
  * Created by ZhangChicheng on 2017/11/22.
  */
 public class CommonException extends Exception {
-	protected int errorCode;
+	protected String errorCode;
 	protected String errorMsg;
 	public static final int COMMON_DEFAULT_CODE = 10000;
 
@@ -18,16 +18,16 @@ public class CommonException extends Exception {
 		this.errorMsg = errorCodeEnum.getErrorMsg();
 	}
 
-	public CommonException(int errorCode, String errorMsg) {
+	public CommonException(String errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}
 
-	public int getErrorCode() {
+	public String getErrorCode() {
 		return errorCode;
 	}
 
-	public void setErrorCode(int errorCode) {
+	public void setErrorCode(String errorCode) {
 		this.errorCode = errorCode;
 	}
 

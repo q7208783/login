@@ -17,6 +17,9 @@ import com.zcc.login.vo.CreateUserRequest;
  */
 @Component
 public class UserConverter {
+
+	private final String rolePrefix = "ROLE_";
+
 	@Autowired
 	private ModelMapper modelMapper;
 
@@ -30,7 +33,7 @@ public class UserConverter {
 		String userName = user.getUserName();
 		String password = user.getPassword();
 		List<SimpleGrantedAuthority> authorityList = user.getAuthorities().stream()
-			.map(authority -> new SimpleGrantedAuthority(authority.getAuthName())).collect(Collectors.toList());
+			.map(authority -> new SimpleGrantedAuthority(rolePrefix+authority.getAuthName())).collect(Collectors.toList());
 		return new AuthUser(userName, password, user.getLastrResetPwYmdt(), authorityList);
 	}
 }

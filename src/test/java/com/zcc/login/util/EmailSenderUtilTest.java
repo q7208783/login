@@ -1,5 +1,8 @@
 package com.zcc.login.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +21,9 @@ public class EmailSenderUtilTest {
 	EmailSender emailSender;
 
 	@Test
-	public void sendEmailTest(){
-		emailSender.send();
+	public void sendEmailTest() throws Exception{
+		List<String> add = new ArrayList<>();
+		add.add("576926338@qq.com");
+		emailSender.send(add,"新房监控发现适合您的新房源","https://cd.lianjia.com/ershoufang/106100790393.html");
 	}
 }

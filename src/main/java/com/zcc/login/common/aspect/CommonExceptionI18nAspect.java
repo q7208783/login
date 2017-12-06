@@ -39,7 +39,7 @@ public class CommonExceptionI18nAspect {
 			log.debug("*********** params ex is null");
 			return;
 		}
-		int errorCode = ex.getErrorCode();
+		String errorCode = ex.getErrorCode();
 		String errorMsg = ex.getErrorMsg();
 		log.debug("*******errorCode : " + errorCode);
 		log.debug("*******errorMsg : " + errorMsg);
