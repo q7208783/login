@@ -11,6 +11,7 @@ import com.zcc.login.model.District;
 import com.zcc.login.model.House;
 import com.zcc.login.vo.BindHouseRequest;
 import com.zcc.login.vo.HouseSelectRequest;
+import com.zcc.login.vo.NotificationRequest;
 
 /**
  * Created by ZhangChicheng on 2017/12/1.

@@ -17,8 +17,10 @@ import com.zcc.login.model.City;
 import com.zcc.login.model.District;
 import com.zcc.login.model.House;
 import com.zcc.login.service.HouseService;
+import com.zcc.login.service.UserService;
 import com.zcc.login.vo.BindHouseRequest;
 import com.zcc.login.vo.HouseSelectRequest;
+import com.zcc.login.vo.NotificationRequest;
 
 /**
  * Created by ZhangChicheng on 2017/12/1.
@@ -31,6 +33,8 @@ public class HouseServiceImpl implements HouseService {
 	private HouseSelectMapper houseSelectMapper;
 	@Autowired
 	private HouseConverter houseConverter;
+	@Autowired
+	private UserService userService;
 
 	@Override
 	@Transactional
@@ -65,6 +69,9 @@ public class HouseServiceImpl implements HouseService {
 	@Override
 	public BindHouseRequest queryHouseCondition(Integer userId) throws ServiceException {
 		BindHouseDto bindHouseDto = houseSelectMapper.queryHouseCondition(userId);
+		NotificationRequest notificationRequest = userService.getNotificationInfo(userId);
+		bindHouseDto.setPhoneNum(notificationRequest.getPhoneNum());
+		bindHouseDto.setUserEmail(notificationRequest.getEmail());
 		return houseConverter.bindHouseConverterReq(bindHouseDto);
 	}
 

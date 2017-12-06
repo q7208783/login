@@ -43,8 +43,6 @@ public class HouseController {
 	public CommonResponse<Boolean> bindHouse(@ApiIgnore @RequestAttribute("user") User user,
 		@RequestBody BindHouseRequest request) throws ServiceException {
 		request.setUserId(user.getUserId());
-		request.setUserEmail(user.getEmail());
-		request.setPhoneNum(user.getPhoneNum());
 		return new CommonResponse(houseService.bindHouseCondition(request));
 	}
 

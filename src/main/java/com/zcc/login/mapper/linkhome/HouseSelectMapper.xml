@@ -112,15 +112,15 @@
     </select>
 
     <select id="queryHouseCondition" parameterType="Integer" resultMap="bindHouseMap">
-        SELECT user_id,user_email,user_phonenum,house_price_from,house_price_to,house_size_from,house_size_to,
+        SELECT user_id,house_price_from,house_price_to,house_size_from,house_size_to,
         house_unitprice_from,house_unitprice_to,have_elevator,district_ids,structures
         FROM house_condition WHERE user_id=#{userId}
     </select>
     
     <insert id="bindHouseCondition" parameterType="BindHouseDto">
-        INSERT INTO house_condition(user_id,user_email,user_phonenum,house_price_from,house_price_to,house_size_from,house_size_to,
+        INSERT INTO house_condition(user_id,house_price_from,house_price_to,house_size_from,house_size_to,
         house_unitprice_from,house_unitprice_to,have_elevator,district_ids,structures)
-        VALUES (#{userId},#{userEmail},#{phoneNum},#{priceFrom},#{priceTo},#{sizeFrom},#{sizeTo},#{unitPriceFrom},#{unitPriceTo},
+        VALUES (#{userId},#{priceFrom},#{priceTo},#{sizeFrom},#{sizeTo},#{unitPriceFrom},#{unitPriceTo},
         #{haveElevator},#{districtIds},#{structures})
     </insert>
 
@@ -134,4 +134,5 @@
     <delete id="deleteBindHouse" parameterType="Integer">
         DELETE FROM house_condition WHERE user_id = #{userId}
     </delete>
+
 </mapper>

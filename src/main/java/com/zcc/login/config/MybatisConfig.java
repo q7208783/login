@@ -66,6 +66,4 @@ public class MybatisConfig {
 	public DataSourceTransactionManager transactionManager(DynamicDataSource dataSource) throws Exception {
 		return new DataSourceTransactionManager(dataSource);
 	}
-
-
 }
