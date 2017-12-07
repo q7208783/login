@@ -20,6 +20,8 @@ public class User {
 	private String email;
 	private String createTimeYmdt;
 	private String lastrResetPwYmdt;
+	@JsonIgnore
+	private String token;
 
 	public boolean addAuthority(Authority authority){
 		if(authorities==null)

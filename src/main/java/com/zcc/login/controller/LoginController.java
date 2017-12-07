@@ -18,11 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.zcc.login.common.exception.ServiceException;
+import com.zcc.login.common.utils.JwtTokenUtil;
 import com.zcc.login.model.Token;
 import com.zcc.login.model.User;
 import com.zcc.login.service.LoginService;
 import com.zcc.login.vo.CommonResponse;
 import com.zcc.login.vo.LoginRequest;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.apachecommons.CommonsLog;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -34,6 +36,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequestMapping("/auth")
 public class LoginController {
 
+	@Autowired
+	private JwtTokenUtil jwtTokenUtil;
 	@Autowired
 	private LoginService loginService;
 
@@ -55,5 +59,13 @@ public class LoginController {
 	@ResponseBody
 	public CommonResponse<User> user(@ApiIgnore @RequestAttribute("user")User user){
 		return new CommonResponse(user);
+	}
+
+	@GetMapping("/expire")
+	@ResponseBody
+	public CommonResponse<Boolean> expire(@ApiIgnore @RequestAttribute("user")User user){
+		String token = user.getToken();
+		Boolean isExpire = jwtTokenUtil.isTokenExpired(token);
+		return new CommonResponse<>(isExpire);
 	}
 }

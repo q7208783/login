@@ -37,16 +37,22 @@ public class AuthenticationTokenFilter extends OncePerRequestFilter {
 	private UserService userService;
 	@Autowired
 	private UserConverter userConverter;
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse,
 		FilterChain filterChain) throws ServletException, IOException {
 		String token = CookieUtil.getCookieValue(httpServletRequest, CommonConstant.X_ZCC_TOKEN);
+		if (token == null) {
+			token = httpServletRequest.getHeader(CommonConstant.X_ZCC_TOKEN);
+		}
 		String userName = jwtTokenUtil.getUsernameFromToken(token);
-		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null){
+		if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 			User user = userService.getUser(userName);
+			user.setToken(token);
 			UserDetails userDetails = userConverter.covertUser2AuthUser(user);
-			if(jwtTokenUtil.validateToken(token, userDetails)){
-				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+			if (jwtTokenUtil.validateToken(token, userDetails)) {
+				UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+					userDetails, "", userDetails.getAuthorities());
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 				logger.info("authenticated user " + userName + ", setting security context");
 				SecurityContextHolder.getContext().setAuthentication(authentication);
