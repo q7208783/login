@@ -28,6 +28,9 @@ public class PropertyMessageUtils {
 	}
 
 	public static String getMessage(String key){
+		if(LocaleContextHolder.getLocaleContext() == null){
+			return propertyMessageUtils.messageSourceAccessor.getMessage(key, Locale.CHINA);
+		}
 		return propertyMessageUtils.messageSourceAccessor.getMessage(key, LocaleContextHolder.getLocaleContext().getLocale());
 	}
 
