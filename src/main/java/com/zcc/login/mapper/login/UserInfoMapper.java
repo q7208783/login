@@ -1,6 +1,5 @@
 package com.zcc.login.mapper.login;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.zcc.login.model.User;
 import com.zcc.login.vo.ChangePasswordRequest;
 import com.zcc.login.vo.NotificationRequest;

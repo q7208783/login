@@ -1,19 +1,20 @@
 package com.zcc.login.common.utils;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.zcc.login.user.AuthUser;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.zcc.login.user.AuthUser;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * Created by ZhangChicheng on 2017/11/13.
@@ -53,7 +54,7 @@ public class JwtTokenUtil implements Serializable {
 		Date created;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			created = new Date((Long) claims.get(CLAIM_KEY_CREATED));
+			created = new Date((Long)claims.get(CLAIM_KEY_CREATED));
 		} catch (Exception e) {
 			created = null;
 		}
@@ -71,11 +72,17 @@ public class JwtTokenUtil implements Serializable {
 		return expiration;
 	}
 
+	public long getRemainExpireTime(String token) {
+		long exDate = getExpirationDateFromToken(token).getTime();
+		long now = DateUtil.now().getTime();
+		return exDate - now;
+	}
+
 	public String getAudienceFromToken(String token) {
 		String audience;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			audience = (String) claims.get(CLAIM_KEY_AUDIENCE);
+			audience = (String)claims.get(CLAIM_KEY_AUDIENCE);
 		} catch (Exception e) {
 			audience = null;
 		}
@@ -129,7 +136,7 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	private String doGenerateToken(Map<String, Object> claims) {
-		final Date createdDate = (Date) claims.get(CLAIM_KEY_CREATED);
+		final Date createdDate = (Date)claims.get(CLAIM_KEY_CREATED);
 		final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
 
 		System.out.println("doGenerateToken " + createdDate);
@@ -165,7 +172,7 @@ public class JwtTokenUtil implements Serializable {
 	}
 
 	public Boolean validateToken(String token, UserDetails userDetails) {
-		AuthUser user = (AuthUser) userDetails;
+		AuthUser user = (AuthUser)userDetails;
 		final String username = getUsernameFromToken(token);
 		final Date created = getCreatedDateFromToken(token);
 		return (

@@ -11,6 +11,9 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisShardInfo;
+
 /**
  * Created by ZhangChicheng on 2017/11/9.
  */
@@ -27,5 +30,13 @@ public class CommonBeanConfig {
 	public MessageSourceAccessor messageSourceAccessor(MessageSource messageSource){
 		MessageSourceAccessor messageSourceAccessor = new MessageSourceAccessor(messageSource);
 		return messageSourceAccessor;
+	}
+
+	@Bean
+	public Jedis jedis(){
+		JedisShardInfo jedisShardInfo = new JedisShardInfo("120.78.160.176");
+		jedisShardInfo.setPassword("Zc57198083");
+		Jedis jedis =new Jedis(jedisShardInfo);
+		return jedis;
 	}
 }

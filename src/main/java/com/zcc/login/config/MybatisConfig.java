@@ -9,6 +9,7 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.boot.autoconfigure.SpringBootVFS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -58,6 +59,7 @@ public class MybatisConfig {
 		// 下边两句仅仅用于*.xml文件，如果整个持久层操作不需要使用到xml文件的话（只用注解就可以搞定），则不加
 		factoryBean.setTypeAliasesPackage(typeAliasesPackage);// 指定基包
 		factoryBean.setPlugins(new Interceptor[]{infoInterceptor});
+		factoryBean.setVfs(SpringBootVFS.class);
 		//        factoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocations));//
 		return factoryBean.getObject();
 	}

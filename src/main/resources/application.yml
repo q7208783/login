@@ -39,4 +39,4 @@ management:
   security:
     enabled: false
 server:
-  port: 9080
+  port: 80
