@@ -15,7 +15,7 @@ import com.zcc.login.common.utils.EmailSender;
  * Created by ZhangChicheng on 2017/12/8.
  */
 @Component
-public class HouseReceiver extends AbstractReceiver{
+public class HouseReceiver extends AbstractReceiver {
 
 	@Autowired
 	private EmailSender emailSender;
@@ -34,12 +34,12 @@ public class HouseReceiver extends AbstractReceiver{
 			String url = (String)jsonObject.get("url");
 			List<String> subUserEmailAddrs = new ArrayList<>();
 			subUserEmailAddrs.add("576926338@qq.com");
-			emailSender.send(subUserEmailAddrs,"house fond",url);
+			emailSender.send(subUserEmailAddrs, "house fond", url);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		} catch (ServiceException e) {
 			e.printStackTrace();
-		}catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

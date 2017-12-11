@@ -27,4 +27,6 @@ public class PasswordConfig {
 	private String redisHost;
 	@Value("${password.redis.password}")
 	private String redisPassword;
+	@Value("${password.redis.port}")
+	private int redisPort;
 }

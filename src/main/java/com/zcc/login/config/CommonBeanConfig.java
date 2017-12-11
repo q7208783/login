@@ -11,6 +11,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
 
@@ -33,10 +34,8 @@ public class CommonBeanConfig {
 	}
 
 	@Bean
-	public Jedis jedis(){
-		JedisShardInfo jedisShardInfo = new JedisShardInfo("120.78.160.176");
-		jedisShardInfo.setPassword("Zc57198083");
-		Jedis jedis =new Jedis(jedisShardInfo);
-		return jedis;
+	public ObjectMapper objectMapper(){
+		ObjectMapper objectMapper = new ObjectMapper();
+		return objectMapper;
 	}
 }

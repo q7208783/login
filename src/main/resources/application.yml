@@ -8,6 +8,8 @@ spring:
     prefix: classpath:/static/html/
   config:
     location: classpath:/application-pwd.properties
+  cache:
+    type: REDIS
 
 datasource:
   login:
@@ -21,6 +23,8 @@ datasource:
 #  level:
 #    com:
 #      zcc: debug
+
+#redis cache
 
 
 mybatis:
