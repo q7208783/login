@@ -27,7 +27,8 @@ public class HouseReceiver extends AbstractReceiver{
 	}
 
 	@Override
-	public void handleMessage(String channel, String message) {
+	public void onMessage(String channel, String message) {
+		super.onMessage(channel, message);
 		try {
 			JSONObject jsonObject = new JSONObject(message);
 			String url = (String)jsonObject.get("url");
