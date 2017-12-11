@@ -29,5 +29,7 @@ public interface HouseService {
 
 	BindHouseRequest queryHouseCondition(Integer userId) throws ServiceException;
 
+	List<BindHouseRequest> selectAllCondition() throws ServiceException;
+
 	Boolean deleteBindHouse(Integer userId) throws ServiceException;
 }

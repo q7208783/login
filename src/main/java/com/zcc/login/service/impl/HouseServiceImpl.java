@@ -1,6 +1,8 @@
 package com.zcc.login.service.impl;
 
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,12 +23,14 @@ import com.zcc.login.service.UserService;
 import com.zcc.login.vo.BindHouseRequest;
 import com.zcc.login.vo.HouseSelectRequest;
 import com.zcc.login.vo.NotificationRequest;
+import lombok.extern.apachecommons.CommonsLog;
 
 /**
  * Created by ZhangChicheng on 2017/12/1.
  */
 @Service
 @DataSourceType(DataSourceEnum.LINK_HOME)
+@CommonsLog
 @SuppressWarnings("SpringJavaAutowiringInspection")
 public class HouseServiceImpl implements HouseService {
 	@Autowired
@@ -61,7 +65,7 @@ public class HouseServiceImpl implements HouseService {
 	@Transactional
 	public Boolean bindHouseCondition(BindHouseRequest request) throws ServiceException {
 		BindHouseDto bindHouseDto = houseConverter.bindHouseConverterDto(request);
-		if(!houseSelectMapper.updateBindHouse(bindHouseDto))
+		if (!houseSelectMapper.updateBindHouse(bindHouseDto))
 			return houseSelectMapper.bindHouseCondition(bindHouseDto);
 		return Boolean.TRUE;
 	}
@@ -73,6 +77,21 @@ public class HouseServiceImpl implements HouseService {
 		bindHouseDto.setPhoneNum(notificationRequest.getPhoneNum());
 		bindHouseDto.setUserEmail(notificationRequest.getEmail());
 		return houseConverter.bindHouseConverterReq(bindHouseDto);
+	}
+
+	@Override
+	public List<BindHouseRequest> selectAllCondition() throws ServiceException {
+		List<BindHouseDto> bindHouseDtos = houseSelectMapper.selectAllCondition();
+		return bindHouseDtos.stream().map(bindHouseDto -> {
+			try{
+				NotificationRequest notificationRequest = userService.getNotificationInfo(bindHouseDto.getUserId());
+				bindHouseDto.setPhoneNum(notificationRequest.getPhoneNum());
+				bindHouseDto.setUserEmail(notificationRequest.getEmail());
+			}catch (ServiceException e){
+				log.error("getNotificationInfo got error", e);
+			}
+			return houseConverter.bindHouseConverterReq(bindHouseDto);
+		}).collect(Collectors.toList());
 	}
 
 	@Override

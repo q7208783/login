@@ -116,6 +116,12 @@
         house_unitprice_from,house_unitprice_to,have_elevator,district_ids,structures
         FROM house_condition WHERE user_id=#{userId}
     </select>
+
+    <select id="selectAllCondition" resultMap="bindHouseMap">
+        SELECT user_id,house_price_from,house_price_to,house_size_from,house_size_to,
+        house_unitprice_from,house_unitprice_to,have_elevator,district_ids,structures
+        FROM house_condition
+    </select>
     
     <insert id="bindHouseCondition" parameterType="BindHouseDto">
         INSERT INTO house_condition(user_id,house_price_from,house_price_to,house_size_from,house_size_to,

@@ -27,6 +27,8 @@ public interface HouseSelectMapper {
 
 	BindHouseDto queryHouseCondition(Integer userId);
 
+	List<BindHouseDto> selectAllCondition();
+
 	Boolean updateBindHouse (BindHouseDto request);
 
 	Boolean deleteBindHouse (Integer userId);
