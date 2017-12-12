@@ -1,49 +1,54 @@
 package com.zcc.login.cache;
 
-import org.springframework.data.redis.connection.Pool;
-
 import com.zcc.login.common.utils.JsonUtil;
+import lombok.Builder;
 import redis.clients.jedis.Jedis;
-import springfox.documentation.spring.web.json.Json;
 
 /**
  * Created by ZhangChicheng on 2017/12/11.
  */
-public abstract class RedisCache implements Cache {
+@Builder
+public class RedisCache implements Cache{
 
 	private Jedis jedis;
-
-	public RedisCache(){}
-
-	public RedisCache(Jedis jedis){
-		this.jedis = jedis;
-	}
+	private String cacheKey;
+	private String cacheValue;
 
 	@Override
-	public Object get(String key) {
-		return convert(jedis.get(key));
+	public Object get() {
+		return convert(jedis.get(cacheKey));
 	}
-
 	@Override
-	public String put(String key, Object value) {
-		return jedis.set(key,convert(value));
+	public String put(Object value) {
+		return jedis.set(cacheKey, convert(value));
 	}
-
 	@Override
-	public Long del(String key) {
-		return jedis.del(key);
+	public Long del() {
+		return jedis.del(cacheKey);
 	}
-
 	@Override
-	public boolean isExpire(String key) {
-		return jedis.ttl(key)<0;
+	public boolean isExpire() {
+		return jedis.ttl(cacheKey) < 0;
+	}
+	@Override
+	public String getCacheKey() {
+		return this.cacheKey;
 	}
 
-	public Object convert(String value){
+	public String getCacheValue() {
+		return cacheValue;
+	}
+
+	public void setCacheValue(String cacheValue) {
+		this.cacheValue = cacheValue;
+	}
+
+	public Object convert(String value) {
 		return JsonUtil.toObject(value, Object.class);
 	}
 
-	public String convert(Object value){
+	public String convert(Object value) {
 		return JsonUtil.toJson(value);
 	}
+
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.zcc.login.cache.CacheOperation;
 import com.zcc.login.common.annotation.DataSourceType;
 import com.zcc.login.common.constant.DataSourceEnum;
 import com.zcc.login.common.converter.HouseConverter;
@@ -63,6 +64,7 @@ public class HouseServiceImpl implements HouseService {
 
 	@Override
 	@Transactional
+	@CacheOperation(keyValue = "BindHouseList",method = "put")
 	public Boolean bindHouseCondition(BindHouseRequest request) throws ServiceException {
 		BindHouseDto bindHouseDto = houseConverter.bindHouseConverterDto(request);
 		if (!houseSelectMapper.updateBindHouse(bindHouseDto))
