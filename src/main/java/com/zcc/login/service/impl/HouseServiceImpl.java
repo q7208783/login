@@ -5,6 +5,8 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +65,7 @@ public class HouseServiceImpl implements HouseService {
 
 	@Override
 	@Transactional
+	@CachePut(keyGenerator = "cacheKeyGenerator",value = "BindHouse")
 	public Boolean bindHouseCondition(BindHouseRequest request) throws ServiceException {
 		BindHouseDto bindHouseDto = houseConverter.bindHouseConverterDto(request);
 		if (!houseSelectMapper.updateBindHouse(bindHouseDto))
@@ -71,6 +74,7 @@ public class HouseServiceImpl implements HouseService {
 	}
 
 	@Override
+	@Cacheable(value = "BindHouse",keyGenerator = "cacheKeyGenerator")
 	public BindHouseRequest queryHouseCondition(Integer userId) throws ServiceException {
 		BindHouseDto bindHouseDto = houseSelectMapper.queryHouseCondition(userId);
 		NotificationRequest notificationRequest = userService.getNotificationInfo(userId);
@@ -80,6 +84,7 @@ public class HouseServiceImpl implements HouseService {
 	}
 
 	@Override
+	@Cacheable(value = "BindHouse",keyGenerator = "cacheKeyGenerator")
 	public List<BindHouseRequest> selectAllCondition() throws ServiceException {
 		List<BindHouseDto> bindHouseDtos = houseSelectMapper.selectAllCondition();
 		return bindHouseDtos.stream().map(bindHouseDto -> {

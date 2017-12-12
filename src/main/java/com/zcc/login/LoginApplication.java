@@ -15,7 +15,6 @@ import com.zcc.login.config.PasswordConfig;
 	DataSourceAutoConfiguration.class
 })
 @EnableAspectJAutoProxy(proxyTargetClass=true, exposeProxy=true)
-@EnableCaching
 public class LoginApplication {
 
 	public static void main(String[] args) {
