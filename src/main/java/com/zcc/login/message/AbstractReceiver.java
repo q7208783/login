@@ -14,7 +14,7 @@ public abstract class AbstractReceiver extends JedisPubSub {
 	}
 
 	public void register(Jedis jedis) {
-		jedis.subscribe(this, channel);
+		new Thread(()-> jedis.subscribe(this, channel)).start();
 	}
 
 	public String getChannel() {

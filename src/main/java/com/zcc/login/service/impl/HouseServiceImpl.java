@@ -54,8 +54,20 @@ public class HouseServiceImpl implements HouseService {
 	}
 
 	@Override
+	@Cacheable(keyGenerator = "cacheKeyGenerator",value = "Area")
+	public Integer getAreaByName(String areaName) throws ServiceException {
+		return houseSelectMapper.getAreaByName(areaName);
+	}
+
+	@Override
 	public District getDistrictById(Integer districtId) throws ServiceException {
 		return houseSelectMapper.getDistrictById(districtId);
+	}
+
+	@Override
+	@Cacheable(keyGenerator = "cacheKeyGenerator",value = "District")
+	public Integer getDistrictByName(String districtName) throws ServiceException {
+		return houseSelectMapper.getDistrictByName(districtName);
 	}
 
 	@Override
@@ -64,8 +76,13 @@ public class HouseServiceImpl implements HouseService {
 	}
 
 	@Override
+	@Cacheable(keyGenerator = "cacheKeyGenerator",value = "City")
+	public Integer getCityByName(String cityName) throws ServiceException {
+		return houseSelectMapper.getCityByName(cityName);
+	}
+
+	@Override
 	@Transactional
-	@CachePut(keyGenerator = "cacheKeyGenerator",value = "BindHouse")
 	public Boolean bindHouseCondition(BindHouseRequest request) throws ServiceException {
 		BindHouseDto bindHouseDto = houseConverter.bindHouseConverterDto(request);
 		if (!houseSelectMapper.updateBindHouse(bindHouseDto))

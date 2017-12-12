@@ -14,6 +14,9 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.zcc.login.message.HouseReceiver;
+import com.zcc.login.message.ReceiverManager;
+import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
@@ -76,5 +79,13 @@ public class RedisConfig {
 		om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
 		jackson2JsonRedisSerializer.setObjectMapper(om);
 		template.setValueSerializer(jackson2JsonRedisSerializer);
+	}
+
+	@Bean
+	ReceiverManager receiverManager(HouseReceiver houseReceiver,JedisPool jedisPool){
+		ReceiverManager receiverManager = new ReceiverManager(jedisPool);
+		receiverManager.addReceiver(houseReceiver);
+		receiverManager.startHandleMessage();
+		return receiverManager;
 	}
 }

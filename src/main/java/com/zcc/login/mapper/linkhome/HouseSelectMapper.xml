@@ -101,14 +101,29 @@
         WHERE A.area_no = #{areaId}
     </select>
 
+    <select id="getAreaByName" parameterType="String" resultType="Integer">
+        SELECT A.area_no FROM area A
+        WHERE A.area_name=#{areaName}
+    </select>
+
     <select id="getDistrictById" parameterType="Integer" resultMap="districtMap">
         SELECT D.district_no,D.city_no,D.district_name,D.district_name_pinyin FROM district D
         WHERE C.city_no = #{districtId}
     </select>
 
+    <select id="getDistrictByName" parameterType="String" resultType="Integer">
+        SELECT D.district_no FROM district D
+        WHERE D.district_name=#{districtName}
+    </select>
+
     <select id="getCityById" parameterType="Integer" resultMap="cityMap">
         SELECT C.city_no,C.city_name,C.city_name_simple,C.city_name_pinyin FROM city C
         WHERE C.city_no = #{cityId}
+    </select>
+
+    <select id="getCityByName" parameterType="String" resultType="Integer">
+        SELECT C.city_no FROM city C
+        WHERE C.city_name=#{cityName}
     </select>
 
     <select id="queryHouseCondition" parameterType="Integer" resultMap="bindHouseMap">
