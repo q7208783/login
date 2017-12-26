@@ -20,4 +20,8 @@ public class DataSourceContextHolder {
 	public static void resetDataSourceType() {
 		setDataSourceType(DataSourceEnum.LOGIN);
 	}
+
+	public static void clearDataSourceType() {
+		CONTEXT_HOLDER.remove();
+	}
 }

@@ -2,6 +2,7 @@ package com.zcc.login.mapper.login;
 
 import com.zcc.login.model.User;
 import com.zcc.login.vo.ChangePasswordRequest;
+import com.zcc.login.vo.NotificationRequest;
 import com.zcc.login.vo.SelectUserRequest;
 
 /**
@@ -20,4 +21,7 @@ public interface UserInfoMapper {
 
 	boolean changePassword(ChangePasswordRequest request);
 
+	Boolean changeNotification(NotificationRequest request);
+
+	NotificationRequest getNotificationInfo(Integer userId);
 }

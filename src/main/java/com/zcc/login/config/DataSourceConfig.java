@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -19,17 +20,27 @@ import com.zcc.login.common.constant.DataSourceEnum;
  */
 @Configuration
 public class DataSourceConfig {
+
+	@Autowired
+	private PasswordConfig passwordConfig;
+
 	@Primary
 	@Bean("loginDs")
 	@ConfigurationProperties("datasource.login")
 	public DataSource loginDs() {
-		return DataSourceBuilder.create().build();
+		return DataSourceBuilder.create()
+			.password(passwordConfig.getDatasourcePassword())
+			.username(passwordConfig.getDatasourceUsername())
+			.build();
 	}
 
 	@Bean("linkhomeDs")
 	@ConfigurationProperties("datasource.linkhome")
 	public DataSource linkhomeDs() {
-		return DataSourceBuilder.create().build();
+		return DataSourceBuilder.create()
+			.password(passwordConfig.getDatasourcePassword())
+			.username(passwordConfig.getDatasourceUsername())
+			.build();
 	}
 
 	@Bean("dsMap")

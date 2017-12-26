@@ -16,6 +16,12 @@
         </collection>
     </resultMap>
 
+    <resultMap id="notificationMap" type="NotificationRequest">
+        <id property="userId" column="user_id"/>
+        <result property="email" column="user_mail"/>
+        <result property="phoneNum" column="user_phone_num"/>
+    </resultMap>
+
     <select id="getUser" parameterType="SelectUserRequest" resultMap="UserMap">
         SELECT
         U.user_id,
@@ -67,4 +73,21 @@
             AND user_id=#{userId}
         </if>
     </update>
+
+    <update id="changeNotification" parameterType="NotificationRequest">
+        UPDATE user_info
+        <trim prefix="set" suffixOverrides=",">
+            <if test="email!=null">
+                user_mail = #{email},
+            </if>
+            <if test="phoneNum!=null">
+                user_phone_num = #{phoneNum},
+            </if>
+        </trim>
+        WHERE user_id = #{userId}
+    </update>
+
+    <select id="getNotificationInfo" parameterType="Integer" resultMap="notificationMap">
+        SELECT user_id,user_mail,user_phone_num FROM user_info WHERE user_id = #{userId}
+    </select>
 </mapper>

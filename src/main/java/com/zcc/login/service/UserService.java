@@ -5,6 +5,7 @@ import com.zcc.login.model.User;
 import com.zcc.login.user.AuthUser;
 import com.zcc.login.vo.ChangePasswordRequest;
 import com.zcc.login.vo.CreateUserRequest;
+import com.zcc.login.vo.NotificationRequest;
 import com.zcc.login.vo.SelectUserRequest;
 
 /**
@@ -26,4 +27,8 @@ public interface UserService {
 	int getUserId(String userName)throws ServiceException;
 
 	boolean changePassword(ChangePasswordRequest request)throws ServiceException;
+
+	Boolean changeNotification(NotificationRequest request)throws ServiceException;
+
+	NotificationRequest getNotificationInfo(Integer userId)throws ServiceException;
 }

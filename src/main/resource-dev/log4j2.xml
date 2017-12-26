@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+       <property name="output_log_level">debug</property>
+        <property name="every_file_size">10M</property>
+        <property name="log_pattern">%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</property>
+        <property name="filePath">/home/zhangcc/logs/login</property>
+        <property name="outputPathSuffix">$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log</property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${log_pattern}"/>
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="${filePath}/login-api.log"
+                     filePattern="${filePath}/login-api/${outputPathSuffix}">
+            <PatternLayout pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DirectWriteRolloverStrategy maxFiles="10"/>
+            <Filters>
+                <!--only accept debug-->
+                <ThresholdFilter level="${output_log_level}" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <RollingFile name="RollingFile2" fileName="${filePath}/login-api-error.log"
+                     filePattern="${filePath}/login-api-error/${outputPathSuffix}">
+            <PatternLayout pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DirectWriteRolloverStrategy maxFiles="10"/>
+            <Filters>
+                <ThresholdFilter level="fatal" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <RollingFile name="RollingFile3" fileName="${filePath}/login-api-info.log"
+                     filePattern="${filePath}/login-api-info/${outputPathSuffix}">
+            <PatternLayout pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DirectWriteRolloverStrategy maxFiles="10"/>
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <RollingFile name="RollingFile4" fileName="${filePath}/login-api-warn.log"
+                     filePattern="${filePath}/login-api-warn/${outputPathSuffix}">
+            <PatternLayout pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DirectWriteRolloverStrategy maxFiles="10"/>
+            <Filters>
+                <ThresholdFilter level="warn" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+
+        <RollingFile name="EmailSender" fileName="${filePath}/email-sender.log"
+                     filePattern="$${filePath}/email-sender/${outputPathSuffix}">
+            <PatternLayout pattern="${log_pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="${every_file_size}"/>
+            </Policies>
+            <DirectWriteRolloverStrategy maxFiles="10"/>
+            <Filters>
+                <ThresholdFilter level="debug" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="RollingFile2"/>
+            <AppenderRef ref="RollingFile3"/>
+            <AppenderRef ref="RollingFile4"/>
+            <AppenderRef ref="Console"/>
+        </Root>
+        <logger name="com.zcc.login.common.utils.EmailSender" additivity="false" level="debug">
+            <appender-ref ref="EmailSender" level="warn"/>
+        </logger>
+    </Loggers>
+</Configuration>

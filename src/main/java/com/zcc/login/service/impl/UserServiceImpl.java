@@ -4,16 +4,19 @@ import static com.zcc.login.common.utils.CommonUtils.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.zcc.login.common.annotation.DataSourceType;
 import com.zcc.login.common.constant.AuthorityEnum;
 import com.zcc.login.common.constant.DataSourceEnum;
 import com.zcc.login.common.constant.ErrorCodeEnum;
+import com.zcc.login.common.contextholder.DataSourceContextHolder;
 import com.zcc.login.common.converter.UserConverter;
 import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.common.utils.DateUtil;
@@ -23,10 +26,12 @@ import com.zcc.login.model.Authority;
 import com.zcc.login.model.User;
 import com.zcc.login.model.UserAuthority;
 import com.zcc.login.service.AuthorityService;
+import com.zcc.login.service.HouseService;
 import com.zcc.login.service.UserService;
 import com.zcc.login.user.AuthUser;
 import com.zcc.login.vo.ChangePasswordRequest;
 import com.zcc.login.vo.CreateUserRequest;
+import com.zcc.login.vo.NotificationRequest;
 import com.zcc.login.vo.SelectUserRequest;
 
 /**
@@ -48,6 +53,8 @@ public class UserServiceImpl implements UserService {
 	private AuthorityService authorityService;
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	@Autowired
+	private HouseService houseService;
 
 	private User getUser(SelectUserRequest request) {
 		return userInfoMapper.getUser(request);
@@ -96,10 +103,10 @@ public class UserServiceImpl implements UserService {
 			return userId.intValue();
 	}
 
-	@Transactional
+
 	public boolean deleteUser(String userName) throws ServiceException{
 		int userId = getUserId(userName);
-		if (userInfoMapper.deleteUser(userName)) {
+		if (userInfoMapper.deleteUser(userName)&&houseService.deleteBindHouse(userId)) {
 			return opearationSuccess(authorityService.deleteAllAuthorities(userId));
 		}
 		return false;
@@ -119,5 +126,15 @@ public class UserServiceImpl implements UserService {
 		}
 		request.setLastrResetPwYmdt(DateUtil.timeStamp());
 		return userInfoMapper.changePassword(request);
+	}
+
+	@Override
+	public Boolean changeNotification(NotificationRequest request) throws ServiceException {
+		return userInfoMapper.changeNotification(request);
+	}
+
+	@Override
+	public NotificationRequest getNotificationInfo(Integer userId) throws ServiceException {
+		return userInfoMapper.getNotificationInfo(userId);
 	}
 }

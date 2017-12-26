@@ -7,6 +7,6 @@ import lombok.Data;
  */
 @Data
 public class ExceptionResponse {
-	private int errorCode;
+	private String errorCode;
 	private String errorMsg;
 }

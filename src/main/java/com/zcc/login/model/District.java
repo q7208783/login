@@ -1,5 +1,6 @@
 package com.zcc.login.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
 @Data
 public class District {
 	private Integer districtId;
+	@JsonProperty("district_name")
 	private String districtName;
 	private String districtPinyinName;
 	private Integer cityId;
