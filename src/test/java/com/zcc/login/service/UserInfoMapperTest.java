@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.zcc.login.common.constant.CommonConstant;
 import com.zcc.login.common.constant.ErrorCodeEnum;
@@ -50,6 +51,7 @@ public class UserInfoMapperTest {
 	}
 
 	@Test
+	@Transactional
 	public void createUserTest() throws ServiceException{
 		CreateUserRequest request = new CreateUserRequest();
 		request.setUserName("test");
@@ -89,6 +91,7 @@ public class UserInfoMapperTest {
 	}
 
 	@Test
+	@Transactional
 	public void changePassword(){
 		ChangePasswordRequest request = new ChangePasswordRequest();
 		request.setUserName("zhangchicheng");

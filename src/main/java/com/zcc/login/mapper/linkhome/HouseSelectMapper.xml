@@ -101,9 +101,19 @@
         WHERE A.area_no = #{areaId}
     </select>
 
+    <select id="getAreaByName" parameterType="String" resultType="Integer">
+        SELECT A.area_no FROM area A
+        WHERE A.area_name=#{areaName}
+    </select>
+
     <select id="getDistrictById" parameterType="Integer" resultMap="districtMap">
         SELECT D.district_no,D.city_no,D.district_name,D.district_name_pinyin FROM district D
         WHERE C.city_no = #{districtId}
+    </select>
+
+    <select id="getDistrictByName" parameterType="String" resultType="Integer">
+        SELECT D.district_no FROM district D
+        WHERE D.district_name=#{districtName}
     </select>
 
     <select id="getCityById" parameterType="Integer" resultMap="cityMap">
@@ -111,10 +121,21 @@
         WHERE C.city_no = #{cityId}
     </select>
 
+    <select id="getCityByName" parameterType="String" resultType="Integer">
+        SELECT C.city_no FROM city C
+        WHERE C.city_name=#{cityName}
+    </select>
+
     <select id="queryHouseCondition" parameterType="Integer" resultMap="bindHouseMap">
         SELECT user_id,house_price_from,house_price_to,house_size_from,house_size_to,
         house_unitprice_from,house_unitprice_to,have_elevator,district_ids,structures
         FROM house_condition WHERE user_id=#{userId}
+    </select>
+
+    <select id="selectAllCondition" resultMap="bindHouseMap">
+        SELECT user_id,house_price_from,house_price_to,house_size_from,house_size_to,
+        house_unitprice_from,house_unitprice_to,have_elevator,district_ids,structures
+        FROM house_condition
     </select>
     
     <insert id="bindHouseCondition" parameterType="BindHouseDto">

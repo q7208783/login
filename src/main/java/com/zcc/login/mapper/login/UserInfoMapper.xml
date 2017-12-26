@@ -17,6 +17,7 @@
     </resultMap>
 
     <resultMap id="notificationMap" type="NotificationRequest">
+        <id property="userId" column="user_id"/>
         <result property="email" column="user_mail"/>
         <result property="phoneNum" column="user_phone_num"/>
     </resultMap>
@@ -87,6 +88,6 @@
     </update>
 
     <select id="getNotificationInfo" parameterType="Integer" resultMap="notificationMap">
-        SELECT user_mail,user_phone_num FROM user_info WHERE user_id = #{userId}
+        SELECT user_id,user_mail,user_phone_num FROM user_info WHERE user_id = #{userId}
     </select>
 </mapper>

@@ -21,13 +21,21 @@ public interface HouseService {
 
 	Area getAreaById(Integer areaId) throws ServiceException;
 
+	Integer getAreaByName(String areaName)throws ServiceException;
+
 	District getDistrictById(Integer districtId) throws ServiceException;
 
+	Integer getDistrictByName(String districtName)throws ServiceException;
+
 	City getCityById(Integer cityId) throws ServiceException;
+
+	Integer getCityByName(String cityName)throws ServiceException;
 
 	Boolean bindHouseCondition(BindHouseRequest request) throws ServiceException;
 
 	BindHouseRequest queryHouseCondition(Integer userId) throws ServiceException;
+
+	List<BindHouseRequest> selectAllCondition() throws ServiceException;
 
 	Boolean deleteBindHouse(Integer userId) throws ServiceException;
 }

@@ -8,6 +8,8 @@ spring:
     prefix: classpath:/static/html/
   config:
     location: classpath:/application-pwd.properties
+  cache:
+    type: REDIS
 
 datasource:
   login:
@@ -16,11 +18,10 @@ datasource:
   linkhome:
     jdbc-url: jdbc:mysql://rm-wz92xoj923k8s3v8do.mysql.rds.aliyuncs.com:3306/link-home?useUnicode=true&characterEncoding=utf-8&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
-#logging:
-#  file: /home/zhangcc/logs/tomcat/user_account.log
-#  level:
-#    com:
-#      zcc: debug
+
+logging:
+  level:
+    root: debug
 
 
 mybatis:
@@ -39,4 +40,4 @@ management:
   security:
     enabled: false
 server:
-  port: 9080
+  port: 8080

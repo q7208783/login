@@ -22,4 +22,11 @@ public class PasswordConfig {
 	private String datasourceUsername;
 	@Value("${password.datasource.password}")
 	private String datasourcePassword;
+
+	@Value("${password.redis.host}")
+	private String redisHost;
+	@Value("${password.redis.password}")
+	private String redisPassword;
+	@Value("${password.redis.port}")
+	private int redisPort;
 }

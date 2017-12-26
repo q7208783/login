@@ -19,13 +19,21 @@ public interface HouseSelectMapper {
 
 	Area getAreaById(Integer areaId);
 
+	Integer getAreaByName(String areaName);
+
 	City getCityById(Integer cityId);
 
+	Integer getCityByName(String cityName);
+
 	District getDistrictById(Integer districtId);
+
+	Integer getDistrictByName(String districtName);
 
 	Boolean bindHouseCondition(BindHouseDto request);
 
 	BindHouseDto queryHouseCondition(Integer userId);
+
+	List<BindHouseDto> selectAllCondition();
 
 	Boolean updateBindHouse (BindHouseDto request);
 

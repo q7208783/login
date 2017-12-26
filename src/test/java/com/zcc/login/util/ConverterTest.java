@@ -35,10 +35,10 @@ public class ConverterTest {
 		districtIds.add(1);
 		districtIds.add(2);
 		districtIds.add(3);
-		List<String> structures=new ArrayList<>();
-		structures.add("3室");
-		structures.add("2室");
-		structures.add("1室");
+		List<Integer> structures=new ArrayList<>();
+		structures.add(3);
+		structures.add(2);
+		structures.add(1);
 		request.setDistrictIds(districtIds);
 		request.setStructures(structures);
 		BindHouseDto bindHouseDto = houseConverter.bindHouseConverterDto(request);

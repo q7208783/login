@@ -17,11 +17,13 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.zcc.login.common.exception.ServiceException;
 import com.zcc.login.config.PasswordConfig;
+import lombok.extern.apachecommons.CommonsLog;
 
 /**
  * Created by ZhangChicheng on 2017/12/6.
  */
 @Component
+@CommonsLog
 public class EmailSender {
 
 	private SingleSendMailRequest request;
@@ -41,6 +43,7 @@ public class EmailSender {
 
 	public void send(List<String> emailAddressArray, String title, String content) throws ServiceException{
 		try {
+			log.debug("emails:"+emailAddressArray.toString()+"\n"+"title:"+title+"\n"+"url:"+content+"\n");
 			request.setAccountName("batch@mail.zhangcc.group");
 			request.setFromAlias("皮条张");
 			request.setAddressType(1);

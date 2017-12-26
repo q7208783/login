@@ -32,7 +32,7 @@ public class CommonResponseHandleAspect {
 			CommonResponse returnValue = (CommonResponse)joinPoint.proceed();
 			long endTime = System.currentTimeMillis();
 			returnValue.setProcTime((endTime - startTime) + "ms");
-			int returnCode = returnValue.getReturnCode();
+			String returnCode = returnValue.getReturnCode();
 			String propertyCode = MSG_PREFIX + returnCode;
 			String message = PropertyMessageUtils.getMessage(propertyCode);
 			returnValue.setReturnMsg(message);

@@ -24,12 +24,16 @@ public class HouseConverter {
 		if (request == null)
 			return null;
 		BindHouseDto bindHouseDto = modelMapper.map(request, BindHouseDto.class);
-		StringBuffer sb1 = new StringBuffer();
-		request.getDistrictIds().stream().forEach(integer -> sb1.append(integer + "//"));
-		bindHouseDto.setDistrictIds(sb1.toString());
-		StringBuffer sb2 = new StringBuffer();
-		request.getStructures().stream().forEach(structure -> sb2.append(structure + "//"));
-		bindHouseDto.setStructures(sb2.toString());
+		if(request.getDistrictIds()!=null) {
+			StringBuffer sb1 = new StringBuffer();
+			request.getDistrictIds().stream().forEach(integer -> sb1.append(integer + "//"));
+			bindHouseDto.setDistrictIds(sb1.toString());
+		}
+		if(request.getStructures()!=null){
+			StringBuffer sb2 = new StringBuffer();
+			request.getStructures().stream().forEach(structure -> sb2.append(structure + "//"));
+			bindHouseDto.setStructures(sb2.toString());
+		}
 		return bindHouseDto;
 	}
 
@@ -37,11 +41,16 @@ public class HouseConverter {
 		if (bindHouseDto == null)
 			return null;
 		BindHouseRequest bindHouseRequest = modelMapper.map(bindHouseDto, BindHouseRequest.class);
-		List<String> structures = Arrays.stream(bindHouseDto.getStructures().split("//")).collect(toList());
-		bindHouseRequest.setStructures(structures);
-		List<Integer> districtsIds = Arrays.stream(bindHouseDto.getDistrictIds().split("//")).map(
-			string -> Integer.valueOf(string)).collect(toList());
-		bindHouseRequest.setDistrictIds(districtsIds);
+		if(bindHouseDto.getStructures()!=null){
+			List<Integer> structures = Arrays.stream(bindHouseDto.getStructures().split("//")).map(
+				string -> Integer.valueOf(string)).collect(toList());
+			bindHouseRequest.setStructures(structures);
+		}
+		if(bindHouseDto.getDistrictIds()!=null){
+			List<Integer> districtsIds = Arrays.stream(bindHouseDto.getDistrictIds().split("//")).map(
+				string -> Integer.valueOf(string)).collect(toList());
+			bindHouseRequest.setDistrictIds(districtsIds);
+		}
 		return bindHouseRequest;
 	}
 }
