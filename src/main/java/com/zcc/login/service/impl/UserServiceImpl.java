@@ -103,10 +103,10 @@ public class UserServiceImpl implements UserService {
 			return userId.intValue();
 	}
 
-	@Transactional
+
 	public boolean deleteUser(String userName) throws ServiceException{
 		int userId = getUserId(userName);
-		if (userInfoMapper.deleteUser(userName)) {
+		if (userInfoMapper.deleteUser(userName)&&houseService.deleteBindHouse(userId)) {
 			return opearationSuccess(authorityService.deleteAllAuthorities(userId));
 		}
 		return false;

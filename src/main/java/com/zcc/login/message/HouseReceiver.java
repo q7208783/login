@@ -12,11 +12,13 @@ import com.zcc.login.common.utils.JsonUtil;
 import com.zcc.login.model.House;
 import com.zcc.login.service.HouseService;
 import com.zcc.login.vo.BindHouseRequest;
+import lombok.extern.apachecommons.CommonsLog;
 
 /**
  * Created by ZhangChicheng on 2017/12/8.
  */
 @Component
+@CommonsLog
 public class HouseReceiver extends AbstractReceiver {
 
 	@Autowired
@@ -34,6 +36,7 @@ public class HouseReceiver extends AbstractReceiver {
 	public void onMessage(String channel, String message) {
 		super.onMessage(channel, message);
 		try {
+			log.debug("received a house : "+message);
 			House house = (House)JsonUtil.toObject(message, House.class);
 			JSONObject jsonObject = new JSONObject(message);
 			String districtName = (String)jsonObject.get("squre");

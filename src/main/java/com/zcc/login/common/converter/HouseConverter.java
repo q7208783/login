@@ -41,12 +41,16 @@ public class HouseConverter {
 		if (bindHouseDto == null)
 			return null;
 		BindHouseRequest bindHouseRequest = modelMapper.map(bindHouseDto, BindHouseRequest.class);
-		List<Integer> structures = Arrays.stream(bindHouseDto.getStructures().split("//")).map(
-			string -> Integer.valueOf(string)).collect(toList());
-		bindHouseRequest.setStructures(structures);
-		List<Integer> districtsIds = Arrays.stream(bindHouseDto.getDistrictIds().split("//")).map(
-			string -> Integer.valueOf(string)).collect(toList());
-		bindHouseRequest.setDistrictIds(districtsIds);
+		if(bindHouseDto.getStructures()!=null){
+			List<Integer> structures = Arrays.stream(bindHouseDto.getStructures().split("//")).map(
+				string -> Integer.valueOf(string)).collect(toList());
+			bindHouseRequest.setStructures(structures);
+		}
+		if(bindHouseDto.getDistrictIds()!=null){
+			List<Integer> districtsIds = Arrays.stream(bindHouseDto.getDistrictIds().split("//")).map(
+				string -> Integer.valueOf(string)).collect(toList());
+			bindHouseRequest.setDistrictIds(districtsIds);
+		}
 		return bindHouseRequest;
 	}
 }
