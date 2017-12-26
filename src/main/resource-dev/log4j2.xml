@@ -4,7 +4,7 @@
        <property name="output_log_level">debug</property>
         <property name="every_file_size">10M</property>
         <property name="log_pattern">%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</property>
-        <property name="filePath">home/zhangcc/logs/login</property>
+        <property name="filePath">/home/zhangcc/logs/login</property>
         <property name="outputPathSuffix">$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.log</property>
     </Properties>
 
