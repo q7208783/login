@@ -24,7 +24,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * Created by ZhangChicheng on 2017/12/1.
  */
 @Controller
-@RequestMapping("/house")
+@RequestMapping("/api/house")
 public class HouseController {
 	@Autowired
 	private HouseService houseService;

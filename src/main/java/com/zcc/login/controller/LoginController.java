@@ -29,7 +29,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Controller
 @CommonsLog
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class LoginController {
 
 	@Autowired

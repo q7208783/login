@@ -36,7 +36,7 @@ public class HouseReceiver extends AbstractReceiver {
 	public void onMessage(String channel, String message) {
 		super.onMessage(channel, message);
 		try {
-			log.debug("received a house : "+message);
+			log.debug("received a house : " + message);
 			House house = (House)JsonUtil.toObject(message, House.class);
 			JSONObject jsonObject = new JSONObject(message);
 			String districtName = (String)jsonObject.get("squre");

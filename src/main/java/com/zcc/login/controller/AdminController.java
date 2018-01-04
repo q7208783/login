@@ -22,7 +22,7 @@ import com.zcc.login.vo.SendMailRequest;
  * Created by ZhangChicheng on 2017/12/6.
  */
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
 
 	@Autowired

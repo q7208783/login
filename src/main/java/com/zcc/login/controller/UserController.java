@@ -24,7 +24,7 @@ import springfox.documentation.annotations.ApiIgnore;
  * Created by ZhangChicheng on 2017/11/17.
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController {
 	@Autowired
 	private UserService userService;
